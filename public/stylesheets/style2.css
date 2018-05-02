@@ -1,0 +1,119 @@
+body{
+    background-image: url("../rimages/bg1.jpg");
+    max-width: 100% !important;
+    height: 100%;
+    background-size: cover ;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+
+}
+.brand-logo{
+    margin-left:5vh !important;
+    color:black !important;
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+
+.m{
+    font-size: 3vh !important;
+    color:black !important;
+    margin-right: 5vh;
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+nav{
+    background-color: rgba(0,0,0,0.1)!important;
+}
+
+.c1{
+    margin-top: 50px;
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+
+
+
+.slotTable{
+    background-color: rgba(242,242,242,0.8) !important;
+    text-align: center!important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.FFCStable, .row1, .slotHead, .slot{
+    background-color: rgba(242,242,242,0.4) !important;
+    text-align: center!important;
+    max-width: 90%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    font-family: 'Montserrat', sans-serif !important;
+}
+.slotTable, .slot{
+    padding: 40px !important;
+}
+.selectedCourse{
+    width:85%;
+    background-color: rgba(242,242,242,0.8) !important;
+    text-align: center!important;
+    font-size: 2.5vh !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+#text1{
+    font-size: 3vh !important;
+    margin-left: 15vh;
+}
+#text2{
+    font-size: 2.8vh !important;
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+td,th
+{
+    text-align: center!important;
+}
+#title, #fac{
+    font-size: 3vh !important;
+    color:black !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+.font1{
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+/*CSS FOR SWITCH*/
+/* The switch - the box around the slider */
+
+.switch label input[type=checkbox] +.lever {
+    font-size: 4vh !important;
+    background: linear-gradient( to left,  yellow, deeppink) !important;
+    opacity: 0.8;
+
+}
+
+.switch label input[type=checkbox] +.lever:after {
+    background-color: rgba(132,132,191) !important;
+}
+#sw1{
+    border-left: none;
+    border-right: none;
+    border-top:none;
+    border-width: 2px;
+    border-color: black;
+    max-width:70%;
+}
+/*CSS END*/
+#credits{
+    background: linear-gradient( to left,  yellow, deeppink) !important;
+    width:140px;
+    margin-right: 100px;
+    height:140px;
+    border-radius:70px;
+    font-family: 'Montserrat', sans-serif !important;
+    color:white;
+}
+.DataBase{
+    height:30vh;
+    font-family: 'Montserrat', sans-serif !important;
+    font-size:2.5vh;
+    overflow-x: hidden;
+}

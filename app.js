@@ -4,7 +4,10 @@ const secret = require("./secret");
 const path = require("path")
 //for Oauth-2.0 login
 const passport = require("passport");
-require('./db/passport_setup.js')
+require('./db/passport_setup.js');
+
+const morgan = require("morgan");
+
 
 //session handler
 var session = require("express-session");
@@ -33,6 +36,9 @@ var app = express();
 //for using urlencodedParser in post requests
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false}));
+
+app.use(morgan('dev'));
+
 
 //set up a view engine
 app.set("view engine","ejs");
