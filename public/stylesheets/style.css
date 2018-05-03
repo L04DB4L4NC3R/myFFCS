@@ -39,11 +39,14 @@ body{
 	background: linear-gradient( to left,  #2848be, #954ced);
 }
 /*Media Queries for a Responsive Website*/
-#b1, #b2, #b3{
-	font-family: 'Raleway', sans-serif;
+#b1, #b2, #b3,#b4{
+	font-family: 'Montserrat', sans-serif;
 	margin: 12px;
 	width:200px;
 	color: white;
+}
+#uname,#psw{
+	font-family: 'Montserrat', sans-serif;
 }
 #b1{
 	background: linear-gradient( to left,  #2848be, #954ced);
@@ -54,8 +57,11 @@ body{
 #b2{
 	background: linear-gradient( to left,  #fecf32, #ee526c);
 }
+#b4{
+	background: linear-gradient( to left, #f7fe1f, #ee2a68);
+}
 
-#b1:hover, #b2:hover, #b3:hover{
+#b1:hover, #b2:hover, #b3:hover, #b4:hover{
 	cursor:pointer;
 	color:black;
 }
@@ -90,3 +96,5 @@ body{
 		font-size: 15px;
 	}
 }
+
+
