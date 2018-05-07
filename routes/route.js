@@ -127,10 +127,10 @@ router.get("/timetable",verifyRoute,(req,res)=>{
 router.post("/timetable",verifyRoute,(req,res)=>{
 
 
-    model.find(req.body).then((data)=>{
+    model.find({CODE:req.body.CODE}).then((data)=>{
 
         let segregated_data = segregateData(data);
-
+//console.log(JSON.stringify(segregated_data));
         res.send( JSON.stringify(segregated_data) );
 
     });

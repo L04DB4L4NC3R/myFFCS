@@ -1,13 +1,19 @@
 body{
-    background-image: url("../rimages/bg1.jpg");
+    background-image: url("../images/bg1.jpg");
     max-width: 100% !important;
     height: 100%;
     background-size: cover ;
     background-repeat: no-repeat;
     background-attachment: fixed;
 
-
 }
+
+.yellowBG{
+    color: yellow !important;
+}
+
+
+
 .brand-logo{
     margin-left:5vh !important;
     color:black !important;
@@ -42,13 +48,32 @@ nav{
 .FFCStable, .row1, .slotHead, .slot{
     background-color: rgba(242,242,242,0.4) !important;
     text-align: center!important;
-    max-width: 90%;
     border: 1px solid black;
     border-collapse: collapse;
+    padding:2px !important;
+
+    size: 4px!important;
     font-family: 'Montserrat', sans-serif !important;
 }
+.TH{
+    background: linear-gradient(rgba(255, 163, 42, 0.5), rgba(238, 42, 104, 0.63))!important;
+    color:black;
+}
+.LAB{
+    background: linear-gradient(rgba(73, 89, 255, 0.5), rgba(57, 239, 71, 0.84))!important;
+    color:black;
+}
+.FFCStable{
+    max-width: 90%;
+
+}
+/*.A1{*/
+    /*background-color: yellow !important;*/
+/*}*/
+
+
 .slotTable, .slot{
-    padding: 40px !important;
+
 }
 .selectedCourse{
     width:85%;
@@ -78,6 +103,15 @@ td,th
 }
 .font1{
     font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+.BFac{
+    width:60% !important;
+    background: linear-gradient( to left, #1429ff, deeppink) !important;
+    opacity:0.8 !important;
+}
+.BFac:hover{
+    color: black; !important;
 }
 
 /*CSS FOR SWITCH*/
