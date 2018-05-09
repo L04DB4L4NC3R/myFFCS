@@ -5,7 +5,7 @@ $(document).ready(()=>{
         var slotName=[];
         var counter=0;
         var dataJSON=[];
-        var facID;
+        var facID=1;
         var n;
         //-----------------------------------------------------------------------------------------
         function addDataToList(s,c,t,v,f,cd) //Updating selected courses table
@@ -55,6 +55,14 @@ $(document).ready(()=>{
                     return;
 
                 }
+            }
+
+
+            function changeSlotColor(s, code) {
+                var slotI= s.substr(1, s.length);
+                $(s).addClass("TH");
+                $(s).html(code+"-"+ '<br/>'+slotI);
+
             }
 
 
@@ -159,14 +167,6 @@ $(document).ready(()=>{
 
     // console.log(slotName,"slotName");
 
-
-    function changeSlotColor(s, code) {
-        var slotI= s.substr(1, s.length);
-        $(s).addClass("TH");
-        $(s).html(code+"-"+ '<br/>'+slotI);
-
-    }
-
 }//End of updateFrontend()
 
 
@@ -187,9 +187,44 @@ $(document).ready(()=>{
         $("#credits").html("<br><h4><b>"+data.credits+"</b></h4>CREDITS");
 
         //TODO define slotInit
-        for(var j=0;j<dataJSON.length;j++)
+        for(var j=0;j<dataJSON.length;j++){
             addDataToList(dataJSON[j]["SLOT"], dataJSON[j]["CODE"], dataJSON[j]["TITLE"], dataJSON[j]["VENUE"], dataJSON[j]["FACULTY"] , dataJSON[j]["CREDITS"]);
-        extractSlot();
+            extSlot(j);
+        }
     });
+
+
+    function extSlot(b) {
+        var flag=0;
+        var length=dataJSON[b]["SLOT"].length;
+        var i=0;
+        for(;i<length;i++) //Check if + sign is present which means there are more than 1 slots
+            if(dataJSON[b]["SLOT"][i]=="+"){
+                flag=1; //Flag to 1 if more than 1 slot present
+                break;
+            }
+
+        if (flag == 1) {
+            slotName[b]=".";
+            slotName[b] =slotName[b] + dataJSON[b]["SLOT"].substr(0, i); //Store the first part of the slot in slotName
+            dataJSON[b]["SLOT"] =dataJSON[b]["SLOT"].substr(i+1, length); //Store the later part of the slot in slot
+
+            changeSlotColor(slotName[b], dataJSON[b]["CODE"]); //Call function to change color
+
+            if(dataJSON[b]["SLOT"].localeCompare("")!=0) // If slot has another part
+                extSlot(b);
+
+        }
+
+        else {
+            slotName[b]=".";
+            slotName[b] = slotName[b] + dataJSON[b]["SLOT"]; // Copy slot to slotName and call fxn to change color
+            changeSlotColor(slotName[b], dataJSON[b]["CODE"]);
+            return;
+
+        }
+    }
+
+
 
 });
