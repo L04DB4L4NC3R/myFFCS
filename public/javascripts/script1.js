@@ -71,12 +71,31 @@ $(document).ready(()=>{
       facID--;
     console.log("SUPERMAN", facID);
     slotInit[facID]=dataJSON[facID]["SLOT"];
-    addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
+
+
+    $.post("/timetable/save",dataJSON[facID],(res)=>{
+
+        if(res.status == "clashed"){
+            alert("Slot(s) clashed! "+res.info+" Slot was clashed");
+        } else if(res.status == "limit"){
+            alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
+        } else{
+            //alert("Updated! As of now you have "+res.info+" credits");
+            $("#creds").html('Total Credits: ' + res.info)
+            $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")
+            addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
+            slotName[facID]=".";
+            extractSlot();
+        }
+    });
+
+
+    //addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
     // console.log(length);
 
-    slotName[facID]=".";
+    //slotName[facID]=".";
 
-    extractSlot();
+    //extractSlot();
 
     function extractSlot() {
         var flag=0;
