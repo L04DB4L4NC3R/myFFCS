@@ -70,9 +70,8 @@ $(document).ready(()=>{
     function updateFrontend(){
       facID--;
     console.log("SUPERMAN", facID);
-    alert(facID);
     slotInit[facID]=dataJSON[facID]["SLOT"];
-    addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["c"]);
+    addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
     // console.log(length);
 
     slotName[facID]=".";
