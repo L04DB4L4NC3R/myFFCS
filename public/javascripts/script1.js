@@ -90,8 +90,8 @@ $(document).ready(()=>{
 
         if (flag == 1) {
             slotName[facID]=".";
-            slotName[facID] =slotName[facID] + dataJSON[facID]["CODE"].substr(0, i); //Store the first part of the slot in slotName
-            dataJSON[facID]["SLOT"] =dataJSON[facID]["CODE"].substr(i+1, length); //Store the later part of the slot in slot
+            slotName[facID] =slotName[facID] + dataJSON[facID]["SLOT"].substr(0, i); //Store the first part of the slot in slotName
+            dataJSON[facID]["SLOT"] =dataJSON[facID]["SLOT"].substr(i+1, length); //Store the later part of the slot in slot
 
             changeSlotColor(slotName[facID], dataJSON[facID]["CODE"]); //Call function to change color
 
@@ -122,7 +122,7 @@ $(document).ready(()=>{
 
     function changeSlotColor(s, code) {
         var slotI= s.substr(1, s.length);
-        $(s).addClass(dataJSON[counter]["TYPE"]);
+        $(s).addClass("TH");
         $(s).html(code+"-"+ '<br/>'+slotI);
 
     }
