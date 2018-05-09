@@ -96,6 +96,15 @@ router.post('/',(req,res)=>{
 
 
 router.get("/timetable",verifyRoute,(req,res)=>{
+
+    res.render("timetable");
+
+});
+
+
+
+
+router.get("/timetable/fetch",verifyRoute,(req,res)=>{
     //add timetable looking up TODO
 
     profileModel.findOne( {email:req.session.email} ).then( (data)=>{
@@ -112,9 +121,7 @@ router.get("/timetable",verifyRoute,(req,res)=>{
             return summ;
         }
 
-
-
-        res.render("timetable",{data:data.courses,credits:credits(data.courses)});
+        res.json({data:data.courses,credits:credits(data.courses)});
     }).catch(err=>console.log(err));
 
 });

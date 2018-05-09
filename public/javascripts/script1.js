@@ -116,6 +116,7 @@ $(document).ready(()=>{
 
             if(dataJSON[facID]["SLOT"].localeCompare("")!=0) // If slot has another part
                 extractSlot();
+
         }
 
         else {
@@ -176,4 +177,18 @@ $(document).ready(()=>{
             updateFreshCourses();
         });
     });
+
+    //to get stored data
+    $.get("/timetable/fetch",(data)=>{
+
+        dataJSON = data.data;
+        $("#creds").html('Total Credits: ' + data.credits);
+        $("#credits").html("<br><h4><b>"+data.credits+"</b></h4>CREDITS");
+
+        //TODO define slotInit
+        addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
+        slotName[facID]=".";
+        extractSlot();
+    });
+
 });
