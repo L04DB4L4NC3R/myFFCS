@@ -36,7 +36,22 @@ nav{
     font-family: 'Alegreya Sans', sans-serif !important;
 }
 
+/*change*/
+.cross {
+    color: red;
+}
 
+.close:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.fac:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+/*change*/
 
 
 .slotTable{
