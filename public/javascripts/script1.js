@@ -9,7 +9,7 @@ $(document).ready(()=>{
         var n;
         var extractfacID; //Change
         //-----------------------------------------------------------------------------------------
-        function addDataToList(s,c,t,v,f,cd) //Updating selected courses table
+        function addDataToList(s,c,t,v,f,cd,id_cell) //Updating selected courses table
         {
             var table = document.getElementById("sec_Course");
             var row=table.insertRow(1);
@@ -66,7 +66,7 @@ $(document).ready(()=>{
             }
 
 
-            function changeSlotColor(s, code) {
+            function changeSlotColor(s, code,flag02) {
                 var slotI= s.substr(1, s.length);
                 if(flag02==1) {
                     if ($(s).hasClass("TH") == true)//Change
