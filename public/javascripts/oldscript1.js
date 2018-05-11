@@ -7,31 +7,23 @@ $(document).ready(()=>{
         var dataJSON=[];
         var facID=1;
         var n;
-        var extractfacID; //Change
         //-----------------------------------------------------------------------------------------
         function addDataToList(s,c,t,v,f,cd) //Updating selected courses table
         {
             var table = document.getElementById("sec_Course");
             var row=table.insertRow(1);
-            row.id="row"+id_cell;//change
             var slot=row.insertCell(0);
             var code=row.insertCell(1);
             var title=row.insertCell(2);
             var ven=row.insertCell(3);
             var facl=row.insertCell(4);
             var cred=row.insertCell(5);
-            var delt=row.insertCell(6);// CHANGE
-            delt.id="id"+id_cell;//change
-            var classN="close" ; //change
-
             slot.innerHTML=s;
             code.innerHTML=c;
             title.innerHTML=t;
             ven.innerHTML=v;
             facl.innerHTML=f;
             cred.innerHTML=cd;
-            delt.innerHTML="<b/><i class=\"fas fa-times cross\"/></b/>"; //CHANGE
-            $("#"+delt.id).addClass(classN);//CHANGE
         }
 
             function extractSlot() {
@@ -68,18 +60,8 @@ $(document).ready(()=>{
 
             function changeSlotColor(s, code) {
                 var slotI= s.substr(1, s.length);
-                if(flag02==1) {
-                    if ($(s).hasClass("TH") == true)//Change
-                    {
-                        console.log("Removing", s);
-                        $(s).removeClass( "TH" );
-                        $(s).html(s);
-                    }
-                }
-                else {
-                    $(s).addClass("TH");//Change
-                    $(s).html(code + "-" + '<br/>' + slotI);
-                }
+                $(s).addClass("TH");
+                $(s).html(code+"-"+ '<br/>'+slotI);
 
             }
 
@@ -136,15 +118,7 @@ $(document).ready(()=>{
 
     });
 
-//Remove courses   -------------------change-------------------------------------------------------------
-$(document).on('click', '.close', function(){
-    extractfacID=parseInt((this.id).substr(2,(this.id).length));
-    $("#row"+extractfacID).remove();
-    dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
-    facID=extractfacID;
-    updateFrontend(1);
-});
-//-----------------------------------------End-----------------------------------------------------------
+
     //--------------------------------------------------------------------------------------------------------------------------
 
     /*Function: updateFrontend()
@@ -153,47 +127,48 @@ $(document).on('click', '.close', function(){
 
 
 
-        function updateFrontend(){
-          facID--;
-        console.log("SUPERMAN", facID);
-        slotInit[facID]=dataJSON[facID]["SLOT"];
+    function updateFrontend(){
+      facID--;
+    console.log("SUPERMAN", facID);
+    slotInit[facID]=dataJSON[facID]["SLOT"];
 
 
-        $.post("/timetable/save",dataJSON[facID],(res)=>{
+    $.post("/timetable/save",dataJSON[facID],(res)=>{
 
-            if(res.status == "clashed"){
-                alert("Slot(s) clashed! "+res.info+" Slot was clashed");
-            } else if(res.status == "limit"){
-                alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
-            } else{
-                //alert("Updated! As of now you have "+res.info+" credits");
-                $("#creds").html('Total Credits: ' + res.info)
-                $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")
-                addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
-                slotName[facID]=".";
-                extractSlot();
-            }
-        });
+        if(res.status == "clashed"){
+            alert("Slot(s) clashed! "+res.info+" Slot was clashed");
+        } else if(res.status == "limit"){
+            alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
+        } else{
+            //alert("Updated! As of now you have "+res.info+" credits");
+            $("#creds").html('Total Credits: ' + res.info)
+            $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")
+            addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
+            slotName[facID]=".";
+            extractSlot();
+        }
+    });
 
 
-        //addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
-        // console.log(length);
+    //addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
+    // console.log(length);
 
-        //slotName[facID]=".";
+    //slotName[facID]=".";
 
-        //extractSlot();
+    //extractSlot();
 
-        //Demo data feed
-        // //type="TH";
-        // changeSlotColor(".A1", "CSE1003");
-        // changeSlotColor(".B1", "PHY1999");
-        // changeSlotColor(".E2", "CHY1701");
-        // changeSlotColor(".C2", "MAT2002");
-        //Demo data feed end
+    //Demo data feed
+    // //type="TH";
+    // changeSlotColor(".A1", "CSE1003");
+    // changeSlotColor(".B1", "PHY1999");
+    // changeSlotColor(".E2", "CHY1701");
+    // changeSlotColor(".C2", "MAT2002");
+    //Demo data feed end
 
-        // console.log(slotName,"slotName");
+    // console.log(slotName,"slotName");
 
-    }//End of updateFrontend()
+}//End of updateFrontend()
+
 
     $("#sb").on("click",(e)=>{
         e.preventDefault();
@@ -213,7 +188,7 @@ $(document).on('click', '.close', function(){
 
         //TODO define slotInit
         for(var j=0;j<dataJSON.length;j++){
-            addDataToList(dataJSON[j]["SLOT"], dataJSON[j]["CODE"], dataJSON[j]["TITLE"], dataJSON[j]["VENUE"], dataJSON[j]["FACULTY"] , dataJSON[j]["CREDITS"], facID);
+            addDataToList(dataJSON[j]["SLOT"], dataJSON[j]["CODE"], dataJSON[j]["TITLE"], dataJSON[j]["VENUE"], dataJSON[j]["FACULTY"] , dataJSON[j]["CREDITS"]);
             extSlot(j);
         }
     });
