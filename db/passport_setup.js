@@ -48,7 +48,7 @@ passport.use(
                         profileModel.findOne({email:obj.email}).then((user)=>{
 
                             console.log("saved user to DB");
-                            done(null,newUser);
+                            done(null,user);
                         });
 
                     }).catch(err=>console.log(err));
