@@ -140,9 +140,22 @@ $(document).ready(()=>{
 $(document).on('click', '.close', function(){
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
     $("#row"+extractfacID).remove();
-    dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
+    //dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
+    console.log(dataJSON[extractfacID]);
     facID=extractfacID;
-    updateFrontend(1);
+    $.ajax({
+        url:'/timetable/del',
+        type:'DELETE',
+        data:dataJSON[extractfacID],
+        success:()=>{
+            console.log("Successfully sent the delete request");
+            location.reload();
+            //updateFrontend(1);
+        },
+        error:()=>{
+            console.log("Error sending delete AJAX request");
+        }
+    });
 });
 //-----------------------------------------End-----------------------------------------------------------
     //--------------------------------------------------------------------------------------------------------------------------
