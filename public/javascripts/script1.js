@@ -1,4 +1,5 @@
-$(document).ready(()=>{
+$(document).ready(()=>
+{
         //--------------------------------------------GLOBAL VARIABLES---------------------------
         var getJSON = [];
         var slotInit =[];
@@ -9,7 +10,7 @@ $(document).ready(()=>{
         var n;
         var extractfacID; //Change
         //-----------------------------------------------------------------------------------------
-        function addDataToList(s,c,t,v,f,cd,id_cell) //Updating selected courses table
+        function addDataToList(s,c,t,v,f,cd) //Updating selected courses table
         {
             var table = document.getElementById("sec_Course");
             var row=table.insertRow(1);
@@ -34,7 +35,49 @@ $(document).ready(()=>{
             $("#"+delt.id).addClass(classN);//CHANGE
         }
 
-            function extractSlot() {
+
+
+//---------------------------------------------------------------------------------- Baker
+
+
+    var temp="0";
+    var temp2="#0";
+    $(".slotLabel").on("click", function(){
+        var innerHTMLElement= (this.id).toUpperCase();
+        innerHTMLElement = innerHTMLElement.substr(1, innerHTMLElement.length);
+        innerHTMLElement = "." + innerHTMLElement;
+        console.log($(innerHTMLElement).hasClass("testSlot"), "for class", innerHTMLElement);
+        if($(innerHTMLElement).hasClass("testSlot") == false) {
+            $(temp).removeClass("testSlot");
+            $(temp2).removeClass("textBold");
+            console.log("Changing bold at",temp2);
+            temp = innerHTMLElement;
+            $(temp2.substr(0,1)+this.id).addClass("textBold"); //Extracting the # sign
+            if($(innerHTMLElement).addClass("TH")== false)
+                $(innerHTMLElement).addClass("testSlot");
+        }
+        else{
+            $(temp).removeClass("testSlot");
+            $(temp2).removeClass("textBold");
+        }
+        temp2=temp2.substr(0,1)+(this.id); //Extracting th
+    });
+
+    $('#sw1').on('click', function(){  //On click for toggle switch
+
+        if ($('#sw1').is(":checked"))
+        {
+            console.log("On");
+        } else {
+            console.log("Off");
+        }
+    });
+
+
+//---------------------------------------------------------------------------------- Baker ends
+
+
+function extractSlot() {
                 var flag=0;
                 var length=dataJSON[facID]["SLOT"].length;
                 var i=0;
@@ -66,7 +109,7 @@ $(document).ready(()=>{
             }
 
 
-            function changeSlotColor(s, code,flag02) {
+            function changeSlotColor(s, code, flag02) {
                 var slotI= s.substr(1, s.length);
                 if(flag02==1) {
                     if ($(s).hasClass("TH") == true)//Change
@@ -140,22 +183,9 @@ $(document).ready(()=>{
 $(document).on('click', '.close', function(){
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
     $("#row"+extractfacID).remove();
-    //dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
-    console.log(dataJSON[extractfacID]);
+    dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
     facID=extractfacID;
-    $.ajax({
-        url:'/timetable/del',
-        type:'DELETE',
-        data:dataJSON[extractfacID],
-        success:()=>{
-            console.log("Successfully sent the delete request");
-            location.reload();
-            //updateFrontend(1);
-        },
-        error:()=>{
-            console.log("Error sending delete AJAX request");
-        }
-    });
+    updateFrontend(1);
 });
 //-----------------------------------------End-----------------------------------------------------------
     //--------------------------------------------------------------------------------------------------------------------------

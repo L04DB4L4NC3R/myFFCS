@@ -12,6 +12,32 @@ body{
     color: yellow !important;
 }
 
+/*BAKER*/
+.slotLabel:hover{
+    font-weight: bold;
+    cursor:pointer;
+}
+.testSlot{
+    background: linear-gradient(rgba(142, 43, 255, 0.5), rgba(12, 43, 238, 0.63))!important;
+    transition: 0.8s;
+}
+.textBold{
+    font-weight: bold;
+}
+.row1{
+    height:70px !important;
+}
+.week{
+    width:100px; !important;
+    padding:1px !important;
+}
+.l{
+    width: 70px;
+}
+.FFCStable{
+    table-layout: fixed;
+}
+/*Baker ends*/
 
 
 .brand-logo{
