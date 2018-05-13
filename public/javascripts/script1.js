@@ -141,16 +141,15 @@ $(document).on('click', '.close', function(){
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
     $("#row"+extractfacID).remove();
     //dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
-    console.log(dataJSON[extractfacID]);
     facID=extractfacID;
     $.ajax({
         url:'/timetable/del',
         type:'DELETE',
         data:dataJSON[extractfacID],
-        success:()=>{
-            console.log("Successfully sent the delete request");
-            location.reload();
+        success:(obj)=>{
+            console.log("Successfully sent the delete request ",obj);
             //updateFrontend(1);
+            location.reload();
         },
         error:()=>{
             console.log("Error sending delete AJAX request");
