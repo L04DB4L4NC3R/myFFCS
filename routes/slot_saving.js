@@ -66,7 +66,7 @@ router.post("/save",verifyRoute,async (req,res)=>{
 //deletes an element after clicking on a specific button
 router.delete('/del',verifyRoute,(req,res)=>{
 
-
+  console.log(req.body);
     profileModel.update( {email:req.session.email},{$pull: {courses:req.body} }  ).then( ()=>{
 
         console.log("removed course!");
