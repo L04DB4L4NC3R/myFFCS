@@ -49,7 +49,7 @@ $(".slotLabel").on("click", function(){
         $(temp2).removeClass("textBold");
         console.log("Changing bold at",temp2);
         temp = innerHTMLElement;
-        $(temp2.substr(0,1)+this.id).addClass("textBold"); //Extracting the # sign
+        $(temp2.substr(0,1)+this.id).hasClass("textBold"); //Extracting the # sign
         if($(innerHTMLElement).addClass("TH")== false)
             $(innerHTMLElement).addClass("testSlot");
     }
