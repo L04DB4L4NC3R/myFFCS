@@ -11,6 +11,7 @@ $(document).ready(()=>{
         //-----------------------------------------------------------------------------------------
         function addDataToList(s,c,t,v,f,cd,id_cell) //Updating selected courses table
         {
+
             var table = document.getElementById("sec_Course");
             var row=table.insertRow(1);
             row.id="row"+id_cell;//change
@@ -180,7 +181,7 @@ function extractSlot() {
 
 //Remove courses   -------------------change-------------------------------------------------------------
 $(document).on('click', '.close', function(){
-  alert(this.id)
+
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
     $("#row"+extractfacID).remove();
     //alert(extractfacID.toString())
@@ -226,7 +227,7 @@ $(document).on('click', '.close', function(){
                 //alert("Updated! As of now you have "+res.info+" credits");
                 $("#creds").html('Total Credits: ' + res.info)
                 $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")
-                addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
+                addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"],facID);
                 slotName[facID]=".";
                 extractSlot();
             }

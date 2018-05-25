@@ -67,7 +67,14 @@ router.post("/save",verifyRoute,async (req,res)=>{
 router.delete('/del',verifyRoute,(req,res)=>{
 
   console.log(req.body);
-    profileModel.update( {email:req.session.email},{$pull: {courses:req.body} }  ).then( ()=>{
+
+  if(req.body._id === undefined){
+    profileModel.update({email:req.session.email}, { $set : {courses: [] }} , {multi:true} ).then(()=>{
+      return res.send("Deleted courses array");
+    }).catch(console.log);
+  }
+
+    profileModel.update( {email:req.session.email},{$pull: {courses:{_id:req.body._id}} }  ).then( ()=>{
 
         console.log("removed course!");
 
