@@ -9,6 +9,7 @@
 ### Get started
 
 ![Alt text](./public/images/pic1.png)
+___
 
 <br />
 <br />
@@ -16,7 +17,7 @@
 ### Sign-up
 
 ![Alt text](./public/images/pic2.png)
-
+___
 <br />
 <br />
 
@@ -27,14 +28,17 @@
 <br />
 <br />
 
+___
+
 ### Select courses and make your timetable
 
 <br />
 <br />
 
 ![Alt text](./public/images/pic4.png)
-
+___
 <br />
 <br />
 
 ![Alt text](./public/images/pic5.png)
+___
