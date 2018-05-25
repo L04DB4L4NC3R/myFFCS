@@ -8,6 +8,12 @@ $(document).ready(()=>{
         var facID=1;
         var n;
         var extractfacID; //Change
+        var lever_bool = true;
+
+        $(".lever").on("click",()=>{
+          lever_bool = !lever_bool;
+        });
+
         //-----------------------------------------------------------------------------------------
         function addDataToList(s,c,t,v,f,cd,id_cell) //Updating selected courses table
         {
@@ -141,11 +147,7 @@ function extractSlot() {
     //@Angad JSON store the JSON data into this dictionary array.
     //Extract it from the object and store it in dataJSON
     counter=0;
-    //dataJSON[0]={"venue":"SJT 305", "courseCode":"CSE2001", "courseTitle":"Introduction To Python", "type":"LAB", "slot":"L33+L36", "c":"4", "faculty":"Dr. Rajkumar S"};//Hardcoded
-    //dataJSON[1]={"venue":"SJT 302", "courseCode":"CSE1002", "courseTitle":"Web Development", "type":"TH", "slot":"A2+TA2", "c":"4", "faculty":"Dr. Rajkumar S"};//Hardcoded
-    //dataJSON[2]={"venue":"SJT 103", "courseCode":"PHY1999", "courseTitle":"Innovative Projects in Physics", "type":"TH", "slot":"B2", "c":"4", "faculty":"Dr. Rajkumar S"};//Hardcoded
-    //dataJSON[3]={"venue":"SJT 103", "courseCode":"CSE1003", "courseTitle":"Learnign OOPS", "type":"LAB", "slot":"L10+L11", "c":"4", "faculty":"Dr. Rajkumar S"};//Hardcoded
-    n=dataJSON.length;
+  n=dataJSON.length;
     slotInit =[];
     slotName=[];
     //------------------------------------------UPDATE TABLE-------------------------------------------//
