@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const secret = require("../secret");
 
-mongoose.connect(secret.mongoURL);
+mongoose.connect(process.env.MONGO_URL);
 
 mongoose.connection.once("open",()=>{
     console.log("connected to database");

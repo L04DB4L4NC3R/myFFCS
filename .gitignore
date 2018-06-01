@@ -1,5 +1,5 @@
 Procfile
-secret.js
+.env
 node_modules
 mock
 data

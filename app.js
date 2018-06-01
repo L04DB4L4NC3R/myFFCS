@@ -1,13 +1,13 @@
 //https://stackoverflow.com/questions/16827987/expressjs-throw-er-unhandled-error-event
 const express = require("express");
-const secret = require("./secret");
 const path = require("path")
 //for Oauth-2.0 login
 const passport = require("passport");
+
+require("dotenv").config()
 require('./db/passport_setup.js');
 
 const morgan = require("morgan");
-
 
 //session handler
 var session = require("express-session");
@@ -32,7 +32,6 @@ require("./db/load_in_db");
 
 //set up a server
 var app = express();
-
 //for using urlencodedParser in post requests
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false}));
@@ -47,7 +46,7 @@ app.set("view engine","ejs");
 app.use(express.static(path.join(__dirname, 'public')));
 
 //set up a session (It uses cookies)
-app.use(session({secret:secret.cookieSecretKey,
+app.use(session({secret:process.env.COOKIE_SECRET_KEY,
                         saveUninitialized:false,
                         resave:false
                     }));
@@ -69,9 +68,7 @@ app.use("/nosignup",nosignup);
 app.use("/auth",auth_router);
 
 //listen on specified port
-const port = 3000;
 
-
-app.listen(process.env.PORT || 3000,function(){
-    console.log("Listening on localhost: " + port.toString());
+app.listen(process.env.PORT,function(){
+    console.log("Listening on localhost: " + process.env.PORT);
 });
