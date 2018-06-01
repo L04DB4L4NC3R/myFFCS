@@ -8,10 +8,11 @@ $(document).ready(()=>{
         var facID=1;
         var n;
         var extractfacID; //Change
-        var lever_bool = true;
+        var state = true; //change2
 
         $(".lever").on("click",()=>{
-          lever_bool = !lever_bool;
+          state = !state;
+          updateFreshCourses();
         });
 
         //-----------------------------------------------------------------------------------------
@@ -67,19 +68,19 @@ $(".slotLabel").on("click", function(){
     temp2=temp2.substr(0,1)+(this.id); //Extracting th
 });
 
-$('#sw1').on('click', function(){ //change2
-
-    if ($('#sw1').is(":checked"))
-    {
-        state="T";
-        console.log(state);
-    }
-    else {
-        state="L";
-        console.log(state);
-    }
-    updateFreshCourses();
-});
+// $('#sw1').on('click', function(){ //change2
+//
+//     if ($('#sw1').is(":checked"))
+//     {
+//         state="T";
+//         console.log(state);
+//     }
+//     else {
+//         state="L";
+//         console.log(state);
+//     }
+//     updateFreshCourses();
+// });
 
 
 
@@ -143,11 +144,26 @@ function extractSlot() {
     //updateFreshCourses(); //Function to be called when JSON object is received. STATUS:200 @Angad?
 
 
+    // to check if given string i json or not
+    function isJSON(str){
+      try{
+        JSON.parse(str);
+      }
+      catch(e){
+        return false;
+      }
+      return true;
+    }
+
+
+
 
     function updateFreshCourses(){
 
     console.log("updateFreshCourses() running");
-    dataJSON = JSON.parse(dataJSON);
+
+    if(isJSON(dataJSON))
+      dataJSON = JSON.parse(dataJSON);
     //LET US ASSUME THAT THE FACULTY LIST IS STORED IN A ARRAY  OF DICTIONARY IN javascript
     //@Angad JSON store the JSON data into this dictionary array.
     //Extract it from the object and store it in dataJSON
@@ -156,13 +172,33 @@ function extractSlot() {
     slotInit =[];
     slotName=[];
     //------------------------------------------UPDATE TABLE-------------------------------------------//
-
+    var count0=0;
     for(var l =0; l<n ;l++){  //Loop to update table
-      var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
-      if (data.length >=23)
-          $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
-      else
-          $("#fac"+(l+1)).html(data+'<hr/>');
+      // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
+      // if (data.length >=23)
+      //     $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
+      // else
+      //     $("#fac"+(l+1)).html(data+'<hr/>');
+
+      var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
+      if(state) //Superman
+      {
+          if(dataJSON[l]["SLOT"][0]=='L'){
+            if (data.length >= 18)
+                $("#fac" + (count0 + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
+            else
+                $("#fac" + (count0 + 1)).html(data + '<hr/>');
+          }
+      }
+      else {
+        if(dataJSON[l]["SLOT"][0]!='L'){
+          if (data.length >= 18)
+              $("#fac" + (count0 + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
+          else
+              $("#fac" + (count0 + 1)).html(data + '<hr/>');
+        }
+        count0++;
+      }
     }//Table updated with course options
 
 
