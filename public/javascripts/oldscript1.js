@@ -56,8 +56,8 @@ $(".slotLabel").on("click", function(){
         $(temp2).removeClass("textBold");
         console.log("Changing bold at",temp2);
         temp = innerHTMLElement;
-        $(temp2.substr(0,1)+this.id).hasClass("textBold"); //Extracting the # sign
-        if($(innerHTMLElement).addClass("TH")== false)
+        $(temp2.substr(0,1)+this.id).addClass("textBold"); //Extracting the # sign
+        if($(innerHTMLElement).hasClass("TH")== false)
             $(innerHTMLElement).addClass("testSlot");
     }
     else{
@@ -67,15 +67,20 @@ $(".slotLabel").on("click", function(){
     temp2=temp2.substr(0,1)+(this.id); //Extracting th
 });
 
-$('#sw1').on('click', function(){
+$('#sw1').on('click', function(){ //change2
 
     if ($('#sw1').is(":checked"))
     {
-        console.log("On");
-    } else {
-        console.log("Off");
+        state="T";
+        console.log(state);
     }
+    else {
+        state="L";
+        console.log(state);
+    }
+    updateFreshCourses();
 });
+
 
 
 //---------------------------------------------------------------------------------- Baker ends
