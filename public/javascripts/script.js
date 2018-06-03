@@ -185,9 +185,10 @@ function extractSlot() {
       {
           if(dataJSON[l]["SLOT"][0]=='L'){
             if (data.length >= 18)
-                $("#fac" + (count0 + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
+                $("#fac" + (counter + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
             else
-                $("#fac" + (count0 + 1)).html(data + '<hr/>');
+                $("#fac" + (counter + 1)).html(data + '<hr/>');
+          counter++;
           }
       }
       else {
@@ -196,8 +197,8 @@ function extractSlot() {
               $("#fac" + (count0 + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
           else
               $("#fac" + (count0 + 1)).html(data + '<hr/>');
+          count0++;
         }
-        count0++;
       }
     }//Table updated with course options
 
