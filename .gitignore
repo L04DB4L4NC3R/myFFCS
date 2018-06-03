@@ -4,3 +4,4 @@ node_modules
 mock
 data
 todo.txt
+db/all_data.json
