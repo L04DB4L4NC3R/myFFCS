@@ -184,8 +184,8 @@ function extractSlot() {
       if(state) //Superman
       {
           if(dataJSON[l]["SLOT"][0]=='L'){
-            if (data.length >= 18)
-                $("#fac" + (counter + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
+            if (data.length >= 14)
+                $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
             else
                 $("#fac" + (counter + 1)).html(data + '<hr/>');
           counter++;
@@ -193,8 +193,8 @@ function extractSlot() {
       }
       else {
         if(dataJSON[l]["SLOT"][0]!='L'){
-          if (data.length >= 18)
-              $("#fac" + (count0 + 1)).html(data.substr(0, 18) + data.substr(18, data.length) + '<hr/>');
+          if (data.length >= 14)
+              $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
           else
               $("#fac" + (count0 + 1)).html(data + '<hr/>');
           count0++;
