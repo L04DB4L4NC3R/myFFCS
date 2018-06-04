@@ -293,7 +293,7 @@ function updateFrontend(){
     else {
         var ced=0;
         for (var l2=0;l2< arraySubject.length;l2++)
-            ced+=arraySubject[l2]["CREDITS"];
+            ced+=parseInt(arraySubject[l2]["CREDITS"]);
 
         $("#creds").html('Total Credits: ' + ced)
         $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS")
