@@ -47,7 +47,7 @@
         <div class="col-sm-3">
             <button class="btn" type="submit" id="b1" required="true">LOGIN</button><BR>
                 </form>
-            <a href="index2.html"><button class="btn" type="button" id="b2" required="true">SKIP LOGIN</button></a><BR>
+            <a href="/nosignup"><button class="btn" type="button" id="b2" required="true">SKIP LOGIN</button></a><BR>
             <button class="btn" type="button" id="b3">SIGN UP</button>
             <button class="btn" type="button" id="b4" >SIGN UP WITH  <i class="fa fa-google-plus" aria-hidden="true"></i></button>
         </div>
@@ -111,6 +111,9 @@
         });
         $("#b4").click(function(){
             window.location = "/auth/google";
+        })
+        $("#b2").click(function(){
+            window.location = "timetable2.ejs";
         })
     });
 
