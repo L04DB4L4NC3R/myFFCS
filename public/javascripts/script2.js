@@ -117,22 +117,22 @@ function isJSON(str){
 
 var temp="0";
 var temp2="#0";
-$(".SLOTLabel").on("click", function(){
+$(".slotLabel").on("click", function(){
     var innerHTMLElement= (this.id).toUpperCase();
     innerHTMLElement = innerHTMLElement.substr(1, innerHTMLElement.length);
     innerHTMLElement = "." + innerHTMLElement; //Extracting class
     // console.log($(innerHTMLElement).hasClass("testSLOT"), "for class", innerHTMLElement);
-    if($(innerHTMLElement).hasClass("testSLOT") == false) {
-        $(temp).removeClass("testSLOT");
+    if($(innerHTMLElement).hasClass("testSlot") == false) {
+        $(temp).removeClass("testSlot");
         $(temp2).removeClass("textBold");
         temp = innerHTMLElement;
         $(temp2.substr(0,1)+this.id).addClass("textBold"); //Extracting the # sign
         if($(innerHTMLElement).hasClass("TH")== false)
         {
-            $(innerHTMLElement).addClass("testSLOT");}
+            $(innerHTMLElement).addClass("testSlot");}
     }
     else{
-        $(temp).removeClass("testSLOT");
+        $(temp).removeClass("testSlot");
         $(temp2).removeClass("textBold");
     }
     temp2=temp2.substr(0,1)+(this.id); //Extracting th
