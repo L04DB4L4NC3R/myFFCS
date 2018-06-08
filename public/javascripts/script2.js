@@ -1,384 +1,484 @@
-$(document).ready(()=>{
-    //--------------------------------------------GLOBAL VARIABLES---------------------------
-    var getJSON = [];
-var slotInit =[];
-var slotName=[];
+
+
+
+//--------------------------------------------GLOBAL VARIABLES---------------------------
+var SLOTInit =[];
+var SLOTName=[];
 var counter=0;
 var dataJSON=[];
-var facID=1;
+var facID;
 var n;
 var extractfacID; //Change
-var state = true; //change2
+var state = "L";
 var noSignUPsubCounter=0;
 var clashStatus=0;
-$(".lever").on("click",()=>{
-    state = !state;
-updateFreshCourses();
-});
-
+var removeSLOTFlag=0;
+var arraySubject = [];
+var length;
+var ced;
+arraySubject =[];
+var facIDReplace;
+// console.log("STATE1:", arraySubject, "and", dataJSON);
 //-----------------------------------------------------------------------------------------
-function addDataToList(s,c,t,v,f,cd,id_cell) //Updating selected courses table
-{
+updateFreshCourses(); //Function to be called when JSON object is received. STATUS:200 @Angad?
 
-    var table = document.getElementById("sec_Course");
-    var row=table.insertRow(1);
-    row.id="row"+id_cell;//change
-    var slot=row.insertCell(0);
-    var code=row.insertCell(1);
-    var title=row.insertCell(2);
-    var ven=row.insertCell(3);
-    var facl=row.insertCell(4);
-    var cred=row.insertCell(5);
-    var delt=row.insertCell(6);// CHANGE
-    delt.id="id"+id_cell;//change
-    var classN="close" ; //change
 
-    slot.innerHTML=s;
-    code.innerHTML=c;
-    title.innerHTML=t;
-    ven.innerHTML=v;
-    facl.innerHTML=f;
-    cred.innerHTML=cd;
-    delt.innerHTML="<b/><i class=\"fas fa-times cross\"/></b/>"; //CHANGE
-    $("#"+delt.id).addClass(classN);//CHANGE
+
+// to check if given string i json or not
+function isJSON(str){
+  try{
+    JSON.parse(str);
+  }
+  catch(e){
+    return false;
+  }
+  return true;
 }
+
+
+
+    $("#sb").on("click",(e)=>{
+        e.preventDefault();
+
+        $.post("/nosignup/timetable",{CODE:$("#i1").val().toUpperCase()},(data)=>{
+            dataJSON = data;
+            updateFreshCourses();
+        });
+    });
+
+
+
+function updateFreshCourses(){
+
+console.log("updateFreshCourses() running");
+
+if(isJSON(dataJSON))
+  dataJSON = JSON.parse(dataJSON);
+//LET US ASSUME THAT THE FACULTY LIST IS STORED IN A ARRAY  OF DICTIONARY IN javascript
+//@Angad JSON store the JSON data into this dictionary array.
+//Extract it from the object and store it in dataJSON
+counter=0;
+n=dataJSON.length;
+
+SLOTInit =[];
+//Pancake
+    for(var l3=0;l3<n;l3++)
+        SLOTInit[l3]=dataJSON[l3]["SLOT"];
+SLOTName=[];
+//------------------------------------------UPDATE TABLE-------------------------------------------//
+var count0=0;
+for(var l =0; l<n ;l++){  //Loop to update table
+  // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
+  // if (data.length >=23)
+  //     $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
+  // else
+  //     $("#fac"+(l+1)).html(data+'<hr/>');
+
+  var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
+  if(state) //Superman
+  {
+      if(dataJSON[l]["SLOT"][0]=='L'){
+        if (data.length >= 14)
+            $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
+        else
+            $("#fac" + (counter + 1)).html(data + '<hr/>');
+      counter++;
+      }
+  }
+  else {
+    if(dataJSON[l]["SLOT"][0]!='L'){
+      if (data.length >= 14)
+          $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
+      else
+          $("#fac" + (count0 + 1)).html(data + '<hr/>');
+      count0++;
+    }
+  }
+}//Table updated with course options
+}
+
+//----------------------------------------------------------------------------------------------
+
 
 //---------------------------------------------------------------------------------- Baker
 
 
 var temp="0";
 var temp2="#0";
-$(".slotLabel").on("click", function(){
+$(".SLOTLabel").on("click", function(){
     var innerHTMLElement= (this.id).toUpperCase();
     innerHTMLElement = innerHTMLElement.substr(1, innerHTMLElement.length);
-    innerHTMLElement = "." + innerHTMLElement;
-    console.log($(innerHTMLElement).hasClass("testSlot"), "for class", innerHTMLElement);
-    if($(innerHTMLElement).hasClass("testSlot") == false) {
-        $(temp).removeClass("testSlot");
+    innerHTMLElement = "." + innerHTMLElement; //Extracting class
+    // console.log($(innerHTMLElement).hasClass("testSLOT"), "for class", innerHTMLElement);
+    if($(innerHTMLElement).hasClass("testSLOT") == false) {
+        $(temp).removeClass("testSLOT");
         $(temp2).removeClass("textBold");
-        console.log("Changing bold at",temp2);
         temp = innerHTMLElement;
         $(temp2.substr(0,1)+this.id).addClass("textBold"); //Extracting the # sign
         if($(innerHTMLElement).hasClass("TH")== false)
-            $(innerHTMLElement).addClass("testSlot");
+        {
+            $(innerHTMLElement).addClass("testSLOT");}
     }
     else{
-        $(temp).removeClass("testSlot");
+        $(temp).removeClass("testSLOT");
         $(temp2).removeClass("textBold");
     }
     temp2=temp2.substr(0,1)+(this.id); //Extracting th
 });
 
-// $('#sw1').on('click', function(){ //change2
-//
-//     if ($('#sw1').is(":checked"))
-//     {
-//         state="T";
-//         console.log(state);
-//     }
-//     else {
-//         state="L";
-//         console.log(state);
-//     }
-//     updateFreshCourses();
-// });
+state="L"; //Initializing state of slider to Lab
+$('#sw1').on('click', function(){
 
+    if ($('#sw1').is(":checked"))
+    {
+        state="T";
+        // console.log(state);
+    } else {
+        state="L";
+        // console.log(state);
+    }
+    updateFreshCourses();
+});
 
 
 //---------------------------------------------------------------------------------- Baker ends
 
 
 
-
-function extractSlot() {
-    var flag=0;
-    var length=dataJSON[facID]["SLOT"].length;
-    var i=0;
-    for(;i<length;i++) //Check if + sign is present which means there are more than 1 slots
-        if(dataJSON[facID]["SLOT"][i]=="+"){
-            flag=1; //Flag to 1 if more than 1 slot present
-            break;
-        }
-
-    if (flag == 1) {
-        slotName[facID]=".";
-        slotName[facID] =slotName[facID] + dataJSON[facID]["SLOT"].substr(0, i); //Store the first part of the slot in slotName
-        dataJSON[facID]["SLOT"] =dataJSON[facID]["SLOT"].substr(i+1, length); //Store the later part of the slot in slot
-        if ($(slotName[facID]).hasClass("TH") == true) {
-            alert("SLOTS CLASHED"); //If slots clashed then dont change color
-            clashStatus = 1;
-        }
-        else {
-            changeSlotColor(slotName[facID], dataJSON[facID]["CODE"]); //Call function to change color
-        }
-
-        if(dataJSON[facID]["SLOT"].localeCompare("")!=0) // If slot has another part
-            extractSlot();
-
-    }
-
-    else {
-        slotName[facID]=".";
-        slotName[facID] = slotName[facID] + dataJSON[facID]["SLOT"]; // Copy slot to slotName and call fxn to change color
-        if ($(slotName[facID]).hasClass("TH") == true) {
-            alert("SLOTS CLASHED"); //If slots clashed then dont change color
-            clashStatus = 1;
-        }
-        else {
-            changeSlotColor(slotName[facID], dataJSON[facID]["CODE"]);
-        }
-        return;
-
-    }
-}
-
-
-function changeSlotColor(s, code,flag02) {
-    var slotI= s.substr(1, s.length);
-    if(flag02==1) {
-        if ($(s).hasClass("TH") == true)//Change
-        {
-            console.log("Removing", s);
-            $(s).removeClass( "TH" );
-            $(s).html(s);
-        }
-    }
-    else {
-        $(s).addClass("TH");//Change
-        $(s).html(code + "-" + '<br/>' + slotI);
-    }
-
-}
-
-
-
-
-//updateFreshCourses(); //Function to be called when JSON object is received. STATUS:200 @Angad?
-
-
-// to check if given string i json or not
-function isJSON(str){
-    try{
-        JSON.parse(str);
-    }
-    catch(e){
-        return false;
-    }
-    return true;
-}
-
-
-
-
-function updateFreshCourses(){
-
-    console.log("updateFreshCourses() running");
-
-    if(isJSON(dataJSON))
-        dataJSON = JSON.parse(dataJSON);
-    //LET US ASSUME THAT THE FACULTY LIST IS STORED IN A ARRAY  OF DICTIONARY IN javascript
-    //@Angad JSON store the JSON data into this dictionary array.
-    //Extract it from the object and store it in dataJSON
-    counter=0;
-    n=dataJSON.length;
-    slotInit =[];
-    slotName=[];
-    //------------------------------------------UPDATE TABLE-------------------------------------------//
-    var count0=0;
-    for(var l =0; l<n ;l++){  //Loop to update table
-        // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
-        // if (data.length >=23)
-        //     $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
-        // else
-        //     $("#fac"+(l+1)).html(data+'<hr/>');
-
-        var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
-        if(state) //Superman
-        {
-            if(dataJSON[l]["SLOT"][0]=='L'){
-                if (data.length >= 14)
-                    $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
-                else
-                    $("#fac" + (counter + 1)).html(data + '<hr/>');
-                counter++;
-            }
-        }
-        else {
-            if(dataJSON[l]["SLOT"][0]!='L'){
-                if (data.length >= 14)
-                    $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
-                else
-                    $("#fac" + (count0 + 1)).html(data + '<hr/>');
-                count0++;
-            }
-        }
-    }//Table updated with course options
-
-
-
-}//End of updateFreshCourses()
-
-//----------------------------------------------------------------------------------------------
-
-
-
-
-var flag=0; // The next is being called 6 times, fixing bug forcefully
+var flag=0;
 
 $(".fac").click(function() {
-    console.log("running", this.id, "with flag", flag);
+
     facID=(this.id); // or alert($(this).attr('id'));
     facID= parseInt(facID.substr(3,facID.length));
-    updateFrontend ();
-    console.log("runningIF", this.id);
+    // console.log("id clicked",facID); //superman
+
+    var html_cont = document.getElementById(this.id).innerHTML;
+    html_cont=html_cont+"|";
+    // console.log("HTML content", html_cont);
+    var SLOT, ven,fac0,i0,i1;
+    for(i0=0;i0<html_cont.length;i0++) //Extract SLOT
+    {
+        if(html_cont[i0].localeCompare("|")==0)
+            break;
+    }
+    SLOT=html_cont.substr(0,i0);
+    for(i1=i0+1;i1<html_cont.length;i1++) //Extract SLOT
+    {
+        if(html_cont[i1].localeCompare("|")==0) {
+            // console.log("breaking at", html_cont[i1]);
+            break;
+        }
+    }
+    ven=html_cont.substring(i0+1,i1);
+    // console.log("VENUE", ven," from",i0+1," to ", i1);
+    // console.log("ven", ven , "start at:",html_cont[i0+1],"ending at", html_cont[i1], "cotent being", html_cont);
+    for(i0=i1+1;i0<html_cont.length;i0++) //Extract SLOT
+    {
+        if(html_cont[i0].localeCompare("|")==0) {
+            break;
+        }
+    }
+    fac0=html_cont.substring(i1+1,i0);
+    // console.log("SLOT", SLOT, "code", ven, " FACULTY", fac0);
+
+    facIDReplace=-1;
+    // console.log("Pancake prints n", n);
+    for(var findC=0; findC<n; findC++)
+    {
+        // console.log("to be compared with", SLOTInit[findC]);
+        // console.log("SLOT, VENUE, fac", dataJSON[findC]["SLOT"]);
+        if(SLOTInit[findC].localeCompare(SLOT)==0 && dataJSON[findC]["VENUE"].localeCompare(ven)==0 && dataJSON[findC]["FACULTY"].localeCompare(fac0)==0) {
+            facIDReplace = findC;
+            break;
+        }
+    }
+    // console.log("Tracked ID:", facIDReplace);
+    facID=facIDReplace;
+    var SLOTClash=0;
+    var SLOTCompare=[];
+    var toBeComparedWith =[];
+    function DummyExtractSLOT(SLOTDummy){
+        var k=0;
+        var l5;
+        for(l5=0;l5<SLOTDummy.length; l5++)
+        {
+            if(SLOTDummy[l5].localeCompare("+")==0)
+            {
+                toBeComparedWith[k]=SLOTDummy.substring(0,l5);
+                SLOTDummy=SLOTDummy.substring(l5+1, SLOTDummy.length);
+                l5=0;
+                k++;
+            }
+        }
+        toBeComparedWith[k]=SLOTDummy.substring(0,l5);
+    }
+    function ExtractSLOTForIncomingCourse(SLOTDummy){
+        var k=0;
+        var l5;
+        for(l5=0;l5<SLOTDummy.length; l5++)
+        {
+            if(SLOTDummy[l5].localeCompare("+")==0)
+            {
+                SLOTCompare[k]=SLOTDummy.substring(0,l5);
+                SLOTDummy=SLOTDummy.substring(l5+1, SLOTDummy.length);
+                l5=0;
+                k++;
+            }
+        }
+        SLOTCompare[k]=SLOTDummy.substring(0,l5);
+    }
+    ExtractSLOTForIncomingCourse(SLOTInit[facID]);
+    for(var l6=0;l6<noSignUPsubCounter;l6++)//Check whether any SLOTs clashed or not
+    {
+
+        DummyExtractSLOT(arraySubject[l6]["SLOT"]);
+        for(var l7=0; l7<SLOTCompare.length;l7++)
+        {
+            for(var l6=0; l6<toBeComparedWith.length;l6++)
+            {
+                if(SLOTCompare[l7].localeCompare(toBeComparedWith[l6])==0){
+                    SLOTClash=1;
+                    break;
+                }
+            }
+            if(SLOTClash==1)
+                break;
+        }
+        if(SLOTClash==1)
+            break;
+    }
+    if(SLOTClash==1)
+    {
+        alert("SLOT(s) clashed");
+
+        SLOTClash =0;
+        return;
+    }
+    arraySubject[noSignUPsubCounter] = {
+        "SLOT": SLOTInit[facID],
+        "CODE": dataJSON[facID]["CODE"],
+        "TITLE": dataJSON[facID]["TITLE"],
+        "VENUE": dataJSON[facID]["VENUE"],
+        "FACULTY": dataJSON[facID]["FACULTY"],
+        "CREDITS": dataJSON[facID]["c"]
+    };
+    noSignUPsubCounter++;
+
+
+    updateFrontend (0);
     flag++;
 
 });
 
-//Remove courses   -------------------change-------------------------------------------------------------
-$(document).on('click', '.close', function(){
 
+//--------------------------------------------------------------------------------------------------------------------------
+//Remove courses   -------------------change-------------------------------------------------------------
+
+
+$(document).on('click', '.close', function(){
+    // console.log('pancake');
+    removeSLOTFlag=1;//pancake
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
     $("#row"+extractfacID).remove();
-    //alert(extractfacID.toString())
-    //dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
-    //alert(dataJSON[extractfacID]);
+    dataJSON[extractfacID]["SLOT"]=SLOTInit[extractfacID];
     facID=extractfacID;
-//     $.ajax({
-//         url:'/nosignup/timetable/del',
-//         type:'DELETE',
-//         data:dataJSON[extractfacID],
-//         success:()=>{
-//         console.log("Successfully sent the delete request");
-//     location.reload();
-//     //updateFrontend(1);
-// },
-//     error:()=>{
-//         console.log("Error sending delete AJAX request");
-//     }
-// });
+    ced=ced- parseInt(dataJSON[facID]["c"]);
+    $("#creds").html('Total Credits: ' + ced);
+    $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS");
+
+    for(var l6=0;l6<arraySubject.length; l6++)
+    {
+        if(arraySubject[l6]["SLOT"].localeCompare(SLOTInit[facID])== 0  && arraySubject[l6]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0)
+        {
+
+            for(var l7=l6;l7<arraySubject.length-1;l7++)
+            {
+
+                arraySubject[l7] = {
+                    "SLOT": arraySubject[l7+1]["SLOT"],
+                    "CODE": arraySubject[l7+1]["CODE"],
+                    "VENUE": arraySubject[l7+1]["TITLE"],
+                    "FACULTY": arraySubject[l7+1]["FACULTY"],
+                    "CREDITS": arraySubject[l7+1]["CREDITS"]
+                };
+            }
+            arraySubject[l7] = {
+                "SLOT": NaN,
+                "CODE": NaN,
+                "VENUE": NaN,
+                "FACULTY": NaN,
+                "CREDITS": NaN
+            };
+            noSignUPsubCounter--;
+            break;
+        }
+    }
+    updateFrontend(1);
 });
 //-----------------------------------------End-----------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 /*Function: updateFrontend()
 T-> Will be invoked when a subject is clicked
 */
 
 
+function updateFrontend(flag02) {
+    length = SLOTInit[facID].length;
 
-function updateFrontend(){
-    facID--;
-    console.log("SUPERMAN", facID);
-    slotInit[facID]=dataJSON[facID]["SLOT"];
-    var arraySubject = [];
-    arraySubject[noSignUPsubCounter]={"SLOT":slotInit[facID], "CODE":dataJSON[facID]["CODE"], "TITLE":dataJSON[facID]["TITLE"], "VENUE":dataJSON[facID]["VENUE"], "FACULTY":dataJSON[facID]["FACULTY"] , "CREDITS":dataJSON[facID]["CREDITS"],facID};
-    noSignUPsubCounter++;
-    // $.post("/timetable/save",dataJSON[facID],(res)=>{
-    //
-    //     if(res.status == "clashed"){
-    //     alert("Slot(s) clashed! "+res.info+" Slot was clashed");
-    // } else if(res.status == "limit"){
-    //     alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
-    // } else{
-    //     //alert("Updated! As of now you have "+res.info+" credits");
+    if (flag02 == 0) {   // Replaced 2x changes
 
-    // calculate cred manually
-    slotName[facID]=".";
-    extractSlot();
-    if(clashStatus==1) {
-        clashStatus = 0;
-        noSignUPsubCounter--;
+        SLOTName[facID] = ".";
+        dataJSON[facID]["SLOT"]=SLOTInit[facID];
+        extractSLOT();
+        // console.log("Strawberry runs extractSLOT() 1");
+
+        if (clashStatus == 1) {
+            clashStatus = 0;
+        }
+        else {
+            clashStatus = 0;
+            ced = 0;
+            for (var l2 = 0; l2 < noSignUPsubCounter; l2++)
+                ced += parseInt(arraySubject[l2]["CREDITS"]);
+
+            $("#creds").html('Total Credits: ' + ced);
+            $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS");
+
+            addDataToList(SLOTInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"], dataJSON[facID]["CREDITS"], facID);
+
+        }
     }
-    else {
-        var ced=0;
-        for (var l2=0;l2< arraySubject.length;l2++)
-            ced+=parseInt(arraySubject[l2]["CREDITS"]);
-
-        $("#creds").html('Total Credits: ' + ced)
-        $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS")
-        addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"], dataJSON[facID]["CREDITS"], facID);
-
+    else{
+        extractSLOT();
+        // console.log("Strawberry runs extractSLOT() 2");
     }
 
-    // }
-}
+    function extractSLOT() {
+        var flag = 0;
 
+        var i = 0;
+        for (; i < length; i++) //Check if + sign is present which means there are more than 1 SLOTs
+            if (dataJSON[facID]["SLOT"][i] == "+") {
+                flag = 1; //Flag to 1 if more than 1 SLOT present
+                break;
+            }
+        if (flag == 1) {
 
-    //addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"]);
-    // console.log(length);
+            // console.log("CHECKPOINT is ", SLOTInit[facID]);
+            SLOTName[facID] = ".";
+            SLOTName[facID] = SLOTName[facID] + dataJSON[facID]["SLOT"].substr(0, i); //Store the first part of the SLOT in SLOTName
+            dataJSON[facID]["SLOT"] = dataJSON[facID]["SLOT"].substr(i + 1, length); //Store the later part of the SLOT in SLOT
+            // console.log("{ancake tests value of if",($(SLOTName[facID]).hasClass("TH") == true  && removeSLOTFlag==0));
+            if ($(SLOTName[facID]).hasClass("TH") == true   && removeSLOTFlag==0) {
+                alert("SLOTS CLASHED"); //If SLOTs clashed then dont change color
+                clashStatus = 1;
+                return;
+            }
+            else if($(SLOTName[facID]).hasClass("TH") == true && removeSLOTFlag==1)
+            {
+                changeSLOTColor(SLOTName[facID], dataJSON[facID]["CODE"]); //Call function to change color
 
-    //slotName[facID]=".";
+            }
+            else {
+                changeSLOTColor(SLOTName[facID], dataJSON[facID]["CODE"]); //Call function to change color
+            }
 
-    //extractSlot();
-
-    //Demo data feed
-    // //type="TH";
-    // changeSlotColor(".A1", "CSE1003");
-    // changeSlotColor(".B1", "PHY1999");
-    // changeSlotColor(".E2", "CHY1701");
-    // changeSlotColor(".C2", "MAT2002");
-    //Demo data feed end
-
-    // console.log(slotName,"slotName");
-
-//End of updateFrontend()
-
-$("#sb").on("click",(e)=>{
-    e.preventDefault();
-
-$.post("/nosignup/timetable",{CODE:$("#i1").val().toUpperCase()},(data)=>{
-    dataJSON = data;
-updateFreshCourses();
-});
-});
-
-//to get stored data
-$.get("/nosignup/timetable/fetch",(data)=>{
-
-    dataJSON = data.data;
-$("#creds").html('Total Credits: ' + data.credits);
-$("#credits").html("<br><h4><b>"+data.credits+"</b></h4>CREDITS");
-
-//TODO define slotInit
-for(var j=0;j<dataJSON.length;j++){
-    addDataToList(dataJSON[j]["SLOT"], dataJSON[j]["CODE"], dataJSON[j]["TITLE"], dataJSON[j]["VENUE"], dataJSON[j]["FACULTY"] , dataJSON[j]["CREDITS"], facID);
-    extSlot(j);
-}
-});
-
-
-function extSlot(b) {
-    var flag=0;
-    var length=dataJSON[b]["SLOT"].length;
-    var i=0;
-    for(;i<length;i++) //Check if + sign is present which means there are more than 1 slots
-        if(dataJSON[b]["SLOT"][i]=="+"){
-            flag=1; //Flag to 1 if more than 1 slot present
-            break;
+            if (dataJSON[facID]["SLOT"].localeCompare("") != 0) // If SLOT has another part
+            {
+                extractSLOT();
+                length = dataJSON[facID]["SLOT"].length;
+            }
         }
 
-    if (flag == 1) {
-        slotName[b]=".";
-        slotName[b] =slotName[b] + dataJSON[b]["SLOT"].substr(0, i); //Store the first part of the slot in slotName
-        dataJSON[b]["SLOT"] =dataJSON[b]["SLOT"].substr(i+1, length); //Store the later part of the slot in slot
+        else {
+            SLOTName[facID] = ".";
+            SLOTName[facID] = SLOTName[facID] + dataJSON[facID]["SLOT"]; // Copy SLOT to SLOTName and call fxn to change color
+            if ($(SLOTName[facID]).hasClass("TH") == true && removeSLOTFlag==0) {
+                alert("SLOTS CLASHED"); //If SLOTs clashed then dont change color
+                clashStatus = 1;
+                return;
+            }
+            else {
+                changeSLOTColor(SLOTName[facID], dataJSON[facID]["CODE"]);
+            }
 
-        changeSlotColor(slotName[b], dataJSON[b]["CODE"]); //Call function to change color
+            return;
 
-        if(dataJSON[b]["SLOT"].localeCompare("")!=0) // If slot has another part
-            extSlot(b);
+        }
+    }
+
+
+    function changeSLOTColor(s, code, flag02) {//Multiple changes
+        console.log("BURBERRY runs");
+        var SLOTI = s.substr(1, s.length);
+        // console.log("Pancake runs changeSLOTColor");
+        if (removeSLOTFlag == 1) {
+            // console.log("Strawberry runs if", $(s).hasClass("TH") == true);
+            if ($(s).hasClass("TH") == true)//Change
+            {
+                // console.log("Pancake tries removing", s);
+                $(s).removeClass("TH");
+                // console.log("Removing class and changing html element to",s);
+                $(s).html(SLOTI);
+
+            }
+            else { //strawberry
+
+                // console.log("Strawberry runs else");
+                $(s).addClass("TH");//Change
+                $(s).html(code + "-" + '<br/>' + SLOTI);
+            }
+        }
+        else {
+            // console.log("Strawberry runs else");
+            $(s).addClass("TH");//Change
+            $(s).html(code + "-" + '<br/>' + SLOTI);
+        }
 
     }
 
-    else {
-        slotName[b]=".";
-        slotName[b] = slotName[b] + dataJSON[b]["SLOT"]; // Copy slot to slotName and call fxn to change color
-        changeSlotColor(slotName[b], dataJSON[b]["CODE"]);
-        return;
+    function addDataToList(s, c, t, v, f, cd, id_cell) //Updating selected courses table
+    {
+        // console.log("should read empty", arraySubject);
+        // for(var l4=0; l4<arraySubject.length; l4++){
+        //     if(arraySubject[l4]["SLOT"].localeCompare(SLOTInit[facID])== 0  || arraySubject[l4]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0){
+        //         alert("SLOT BOOM");
+        //         return;
+        //     }
+        //
+        //  }
 
-    }
+
+        var table = document.getElementById("sec_Course");
+        var row = table.insertRow(1);
+        row.id = "row" + id_cell;//change
+        var SLOT = row.insertCell(0);
+        var code = row.insertCell(1);
+        var title = row.insertCell(2);
+        var ven = row.insertCell(3);
+        var facl = row.insertCell(4);
+        var cred = row.insertCell(5);
+        var delt = row.insertCell(6);// CHANGE
+        delt.id = "id" + id_cell;//change
+        var classN = "close"; //change
+
+        SLOT.innerHTML = s;
+        code.innerHTML = c;
+        title.innerHTML = t;
+        ven.innerHTML = v;
+        facl.innerHTML = f;
+        cred.innerHTML = cd;
+        delt.innerHTML = "<b/><i class=\"fas fa-times cross\"/></b/>"; //CHANGE
+        $("#" + delt.id).addClass(classN);//CHANGE
+
+    };
 }
 
-
-
-});
+//
+// }//End of updateFrontend()
