@@ -169,8 +169,12 @@ function extractSlot() {
     //Extract it from the object and store it in dataJSON
     counter=0;
   n=dataJSON.length;
-    slotInit =[];
-    slotName=[];
+
+  slotInit =[];
+  //Pancake
+      for(var l3=0;l3<n;l3++)
+          slotInit[l3]=dataJSON[l3]["SLOT"];
+  SLOTName=[];
     //------------------------------------------UPDATE TABLE-------------------------------------------//
     var count0=0;
     for(var l =0; l<n ;l++){  //Loop to update table
@@ -222,8 +226,8 @@ function extractSlot() {
         flag++;
 
     });
-
-//Remove courses   -------------------change-------------------------------------------------------------
+//
+// //Remove courses   -------------------change-------------------------------------------------------------
 $(document).on('click', '.close', function(){
 
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
@@ -246,6 +250,7 @@ $(document).on('click', '.close', function(){
         }
     });
 });
+
 //-----------------------------------------End-----------------------------------------------------------
     //--------------------------------------------------------------------------------------------------------------------------
 
@@ -266,6 +271,10 @@ $(document).on('click', '.close', function(){
             if(res.status == "clashed"){
                 alert("Slot(s) clashed! "+res.info+" Slot was clashed");
             } else if(res.status == "limit"){
+
+
+
+
                 alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
             } else{
                 //alert("Updated! As of now you have "+res.info+" credits");
