@@ -18,6 +18,12 @@ var length;
 var ced;
 arraySubject =[];
 var facIDReplace;
+var state = true; //change2
+
+$(".lever").on("click",()=>{
+  state = !state;
+  updateFreshCourses();
+});
 // console.log("STATE1:", arraySubject, "and", dataJSON);
 //-----------------------------------------------------------------------------------------
 updateFreshCourses(); //Function to be called when JSON object is received. STATUS:200 @Angad?
@@ -48,54 +54,60 @@ function isJSON(str){
 
 
 
-function updateFreshCourses(){
 
-console.log("updateFreshCourses() running");
 
-if(isJSON(dataJSON))
-  dataJSON = JSON.parse(dataJSON);
-//LET US ASSUME THAT THE FACULTY LIST IS STORED IN A ARRAY  OF DICTIONARY IN javascript
-//@Angad JSON store the JSON data into this dictionary array.
-//Extract it from the object and store it in dataJSON
-counter=0;
-n=dataJSON.length;
+        function updateFreshCourses(){
 
-SLOTInit =[];
-//Pancake
-    for(var l3=0;l3<n;l3++)
-        SLOTInit[l3]=dataJSON[l3]["SLOT"];
-SLOTName=[];
-//------------------------------------------UPDATE TABLE-------------------------------------------//
-var count0=0;
-for(var l =0; l<n ;l++){  //Loop to update table
-  // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
-  // if (data.length >=23)
-  //     $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
-  // else
-  //     $("#fac"+(l+1)).html(data+'<hr/>');
+        console.log("updateFreshCourses() running");
 
-  var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
-  if(state) //Superman
-  {
-      if(dataJSON[l]["SLOT"][0]=='L'){
-        if (data.length >= 14)
-            $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
-        else
-            $("#fac" + (counter + 1)).html(data + '<hr/>');
-      counter++;
-      }
-  }
-  else {
-    if(dataJSON[l]["SLOT"][0]!='L'){
-      if (data.length >= 14)
-          $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
-      else
-          $("#fac" + (count0 + 1)).html(data + '<hr/>');
-      count0++;
-    }
-  }
-}//Table updated with course options
-}
+        if(isJSON(dataJSON))
+          dataJSON = JSON.parse(dataJSON);
+        //LET US ASSUME THAT THE FACULTY LIST IS STORED IN A ARRAY  OF DICTIONARY IN javascript
+        //@Angad JSON store the JSON data into this dictionary array.
+        //Extract it from the object and store it in dataJSON
+        counter=0;
+      n=dataJSON.length;
+
+      slotInit =[];
+      //Pancake
+          for(var l3=0;l3<n;l3++)
+              slotInit[l3]=dataJSON[l3]["SLOT"];
+      SLOTName=[];
+        //------------------------------------------UPDATE TABLE-------------------------------------------//
+        var count0=0;
+        for(var l =0; l<n ;l++){  //Loop to update table
+          // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
+          // if (data.length >=23)
+          //     $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
+          // else
+          //     $("#fac"+(l+1)).html(data+'<hr/>');
+
+          var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
+          if(state) //Superman
+          {
+              if(dataJSON[l]["SLOT"][0]=='L'){
+                if (data.length >= 14)
+                    $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
+                else
+                    $("#fac" + (counter + 1)).html(data + '<hr/>');
+              counter++;
+              }
+          }
+          else {
+            if(dataJSON[l]["SLOT"][0]!='L'){
+              if (data.length >= 14)
+                  $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
+              else
+                  $("#fac" + (count0 + 1)).html(data + '<hr/>');
+              count0++;
+            }
+          }
+        }//Table updated with course options
+
+
+
+        }//End of updateFreshCourses()
+
 
 //----------------------------------------------------------------------------------------------
 
@@ -126,19 +138,6 @@ $(".SLOTLabel").on("click", function(){
     temp2=temp2.substr(0,1)+(this.id); //Extracting th
 });
 
-state="L"; //Initializing state of slider to Lab
-$('#sw1').on('click', function(){
-
-    if ($('#sw1').is(":checked"))
-    {
-        state="T";
-        // console.log(state);
-    } else {
-        state="L";
-        // console.log(state);
-    }
-    updateFreshCourses();
-});
 
 
 //---------------------------------------------------------------------------------- Baker ends
