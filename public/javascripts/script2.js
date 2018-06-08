@@ -287,8 +287,8 @@ $(document).on('click', '.close', function(){
     $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS");
 
     for(var l6=0;l6<arraySubject.length; l6++)
-    {
-        if(arraySubject[l6]["SLOT"].localeCompare(slotInit[facID])== 0  && arraySubject[l6]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0)
+    { console.log(l6,arraySubject[l6]["SLOT"][0]!=undefined);
+        if(arraySubject[l6]["SLOT"][0]!=undefined && arraySubject[l6]["SLOT"].localeCompare(slotInit[facID])== 0  && arraySubject[l6]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0)
         {
 
             for(var l7=l6;l7<arraySubject.length-1;l7++)
