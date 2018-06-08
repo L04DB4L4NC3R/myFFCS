@@ -2,8 +2,8 @@
 
 
 //--------------------------------------------GLOBAL VARIABLES---------------------------
-var SLOTInit =[];
-var SLOTName=[];
+var slotInit =[];
+var slotName=[];
 var counter=0;
 var dataJSON=[];
 var facID;
@@ -12,7 +12,7 @@ var extractfacID; //Change
 var state = "L";
 var noSignUPsubCounter=0;
 var clashStatus=0;
-var removeSLOTFlag=0;
+var removeslotFlag=0;
 var arraySubject = [];
 var length;
 var ced;
@@ -68,15 +68,15 @@ function isJSON(str){
         counter=0;
       n=dataJSON.length;
 
-      SLOTInit =[];
+      slotInit =[];
       //Pancake
           for(var l3=0;l3<n;l3++)
-              SLOTInit[l3]=dataJSON[l3]["SLOT"];
-      SLOTName=[];
+              slotInit[l3]=dataJSON[l3]["SLOT"];
+      slotName=[];
         //------------------------------------------UPDATE TABLE-------------------------------------------//
         var count0=0;
         for(var l =0; l<n ;l++){  //Loop to update table
-          // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
+          // var data =dataJSON[l]["slot"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
           // if (data.length >=23)
           //     $("#fac"+(l+1)).html(data.substr(0,23)+ data.substr(23, data.length)+'<hr/>');
           // else
@@ -121,7 +121,7 @@ $(".slotLabel").on("click", function(){
     var innerHTMLElement= (this.id).toUpperCase();
     innerHTMLElement = innerHTMLElement.substr(1, innerHTMLElement.length);
     innerHTMLElement = "." + innerHTMLElement; //Extracting class
-    // console.log($(innerHTMLElement).hasClass("testSLOT"), "for class", innerHTMLElement);
+    // console.log($(innerHTMLElement).hasClass("testslot"), "for class", innerHTMLElement);
     if($(innerHTMLElement).hasClass("testSlot") == false) {
         $(temp).removeClass("testSlot");
         $(temp2).removeClass("textBold");
@@ -155,14 +155,14 @@ $(".fac").click(function() {
     var html_cont = document.getElementById(this.id).innerHTML;
     html_cont=html_cont+"|";
     // console.log("HTML content", html_cont);
-    var SLOT, ven,fac0,i0,i1;
-    for(i0=0;i0<html_cont.length;i0++) //Extract SLOT
+    var slot, ven,fac0,i0,i1;
+    for(i0=0;i0<html_cont.length;i0++) //Extract slot
     {
         if(html_cont[i0].localeCompare("|")==0)
             break;
     }
-    SLOT=html_cont.substr(0,i0);
-    for(i1=i0+1;i1<html_cont.length;i1++) //Extract SLOT
+    slot=html_cont.substr(0,i0);
+    for(i1=i0+1;i1<html_cont.length;i1++) //Extract slot
     {
         if(html_cont[i1].localeCompare("|")==0) {
             // console.log("breaking at", html_cont[i1]);
@@ -172,90 +172,90 @@ $(".fac").click(function() {
     ven=html_cont.substring(i0+1,i1);
     // console.log("VENUE", ven," from",i0+1," to ", i1);
     // console.log("ven", ven , "start at:",html_cont[i0+1],"ending at", html_cont[i1], "cotent being", html_cont);
-    for(i0=i1+1;i0<html_cont.length;i0++) //Extract SLOT
+    for(i0=i1+1;i0<html_cont.length;i0++) //Extract slot
     {
         if(html_cont[i0].localeCompare("|")==0) {
             break;
         }
     }
     fac0=html_cont.substring(i1+1,i0);
-    // console.log("SLOT", SLOT, "code", ven, " FACULTY", fac0);
+    // console.log("slot", slot, "code", ven, " FACULTY", fac0);
 
     facIDReplace=-1;
     // console.log("Pancake prints n", n);
     for(var findC=0; findC<n; findC++)
     {
-        // console.log("to be compared with", SLOTInit[findC]);
-        // console.log("SLOT, VENUE, fac", dataJSON[findC]["SLOT"]);
-        if(SLOTInit[findC].localeCompare(SLOT)==0 && dataJSON[findC]["VENUE"].localeCompare(ven)==0 && dataJSON[findC]["FACULTY"].localeCompare(fac0)==0) {
+        // console.log("to be compared with", slotInit[findC]);
+        // console.log("slot, VENUE, fac", dataJSON[findC]["slot"]);
+        if(slotInit[findC].localeCompare(slot)==0 && dataJSON[findC]["VENUE"].localeCompare(ven)==0 && dataJSON[findC]["FACULTY"].localeCompare(fac0)==0) {
             facIDReplace = findC;
             break;
         }
     }
     // console.log("Tracked ID:", facIDReplace);
     facID=facIDReplace;
-    var SLOTClash=0;
-    var SLOTCompare=[];
+    var slotClash=0;
+    var slotCompare=[];
     var toBeComparedWith =[];
-    function DummyExtractSLOT(SLOTDummy){
+    function DummyExtractslot(slotDummy){
         var k=0;
         var l5;
-        for(l5=0;l5<SLOTDummy.length; l5++)
+        for(l5=0;l5<slotDummy.length; l5++)
         {
-            if(SLOTDummy[l5].localeCompare("+")==0)
+            if(slotDummy[l5].localeCompare("+")==0)
             {
-                toBeComparedWith[k]=SLOTDummy.substring(0,l5);
-                SLOTDummy=SLOTDummy.substring(l5+1, SLOTDummy.length);
+                toBeComparedWith[k]=slotDummy.substring(0,l5);
+                slotDummy=slotDummy.substring(l5+1, slotDummy.length);
                 l5=0;
                 k++;
             }
         }
-        toBeComparedWith[k]=SLOTDummy.substring(0,l5);
+        toBeComparedWith[k]=slotDummy.substring(0,l5);
     }
-    function ExtractSLOTForIncomingCourse(SLOTDummy){
+    function ExtractslotForIncomingCourse(slotDummy){
         var k=0;
         var l5;
-        for(l5=0;l5<SLOTDummy.length; l5++)
+        for(l5=0;l5<slotDummy.length; l5++)
         {
-            if(SLOTDummy[l5].localeCompare("+")==0)
+            if(slotDummy[l5].localeCompare("+")==0)
             {
-                SLOTCompare[k]=SLOTDummy.substring(0,l5);
-                SLOTDummy=SLOTDummy.substring(l5+1, SLOTDummy.length);
+                slotCompare[k]=slotDummy.substring(0,l5);
+                slotDummy=slotDummy.substring(l5+1, slotDummy.length);
                 l5=0;
                 k++;
             }
         }
-        SLOTCompare[k]=SLOTDummy.substring(0,l5);
+        slotCompare[k]=slotDummy.substring(0,l5);
     }
-    ExtractSLOTForIncomingCourse(SLOTInit[facID]);
-    for(var l6=0;l6<noSignUPsubCounter;l6++)//Check whether any SLOTs clashed or not
+    ExtractslotForIncomingCourse(slotInit[facID]);
+    for(var l6=0;l6<noSignUPsubCounter;l6++)//Check whether any slots clashed or not
     {
 
-        DummyExtractSLOT(arraySubject[l6]["SLOT"]);
-        for(var l7=0; l7<SLOTCompare.length;l7++)
+        DummyExtractslot(arraySubject[l6]["SLOT"]);
+        for(var l7=0; l7<slotCompare.length;l7++)
         {
             for(var l6=0; l6<toBeComparedWith.length;l6++)
             {
-                if(SLOTCompare[l7].localeCompare(toBeComparedWith[l6])==0){
-                    SLOTClash=1;
+                if(slotCompare[l7].localeCompare(toBeComparedWith[l6])==0){
+                    slotClash=1;
                     break;
                 }
             }
-            if(SLOTClash==1)
+            if(slotClash==1)
                 break;
         }
-        if(SLOTClash==1)
+        if(slotClash==1)
             break;
     }
-    if(SLOTClash==1)
+    if(slotClash==1)
     {
-        alert("SLOT(s) clashed");
+        alert("slot(s) clashed");
 
-        SLOTClash =0;
+        slotClash =0;
         return;
     }
     arraySubject[noSignUPsubCounter] = {
-        "SLOT": SLOTInit[facID],
+        "SLOT": slotInit[facID],
         "CODE": dataJSON[facID]["CODE"],
         "TITLE": dataJSON[facID]["TITLE"],
         "VENUE": dataJSON[facID]["VENUE"],
@@ -277,10 +277,10 @@ $(".fac").click(function() {
 
 $(document).on('click', '.close', function(){
     // console.log('pancake');
-    removeSLOTFlag=1;//pancake
+    removeslotFlag=1;//pancake
     extractfacID=parseInt((this.id).substr(2,(this.id).length));
     $("#row"+extractfacID).remove();
-    dataJSON[extractfacID]["SLOT"]=SLOTInit[extractfacID];
+    dataJSON[extractfacID]["SLOT"]=slotInit[extractfacID];
     facID=extractfacID;
     ced=ced- parseInt(dataJSON[facID]["CREDITS"]);
     $("#creds").html('Total Credits: ' + ced);
@@ -288,7 +288,7 @@ $(document).on('click', '.close', function(){
 
     for(var l6=0;l6<arraySubject.length; l6++)
     {
-        if(arraySubject[l6]["SLOT"].localeCompare(SLOTInit[facID])== 0  && arraySubject[l6]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0)
+        if(arraySubject[l6]["SLOT"].localeCompare(slotInit[facID])== 0  && arraySubject[l6]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0)
         {
 
             for(var l7=l6;l7<arraySubject.length-1;l7++)
@@ -328,14 +328,14 @@ T-> Will be invoked when a subject is clicked
 
 
 function updateFrontend(flag02) {
-    length = SLOTInit[facID].length;
+    length = slotInit[facID].length;
 
     if (flag02 == 0) {   // Replaced 2x changes
 
-        SLOTName[facID] = ".";
-        dataJSON[facID]["SLOT"]=SLOTInit[facID];
-        extractSLOT();
-        // console.log("Strawberry runs extractSLOT() 1");
+        slotName[facID] = ".";
+        dataJSON[facID]["SLOT"]=slotInit[facID];
+        extractslot();
+        // console.log("Strawberry runs extractslot() 1");
 
         if (clashStatus == 1) {
             clashStatus = 0;
@@ -349,62 +349,62 @@ function updateFrontend(flag02) {
             $("#creds").html('Total Credits: ' + ced);
             $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS");
 
-            addDataToList(SLOTInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"], dataJSON[facID]["CREDITS"], facID);
+            addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"], dataJSON[facID]["CREDITS"], facID);
 
         }
     }
     else{
-        extractSLOT();
-        // console.log("Strawberry runs extractSLOT() 2");
+        extractslot();
+        // console.log("Strawberry runs extractslot() 2");
     }
 
-    function extractSLOT() {
+    function extractslot() {
         var flag = 0;
 
         var i = 0;
-        for (; i < length; i++) //Check if + sign is present which means there are more than 1 SLOTs
+        for (; i < length; i++) //Check if + sign is present which means there are more than 1 slots
             if (dataJSON[facID]["SLOT"][i] == "+") {
-                flag = 1; //Flag to 1 if more than 1 SLOT present
+                flag = 1; //Flag to 1 if more than 1 slot present
                 break;
             }
         if (flag == 1) {
 
-            // console.log("CHECKPOINT is ", SLOTInit[facID]);
-            SLOTName[facID] = ".";
-            SLOTName[facID] = SLOTName[facID] + dataJSON[facID]["SLOT"].substr(0, i); //Store the first part of the SLOT in SLOTName
+            // console.log("CHECKPOINT is ", slotInit[facID]);
+            slotName[facID] = ".";
+            slotName[facID] = slotName[facID] + dataJSON[facID]["SLOT"].substr(0, i); //Store the first part of the SLOT in slotName
             dataJSON[facID]["SLOT"] = dataJSON[facID]["SLOT"].substr(i + 1, length); //Store the later part of the SLOT in SLOT
-            // console.log("{ancake tests value of if",($(SLOTName[facID]).hasClass("TH") == true  && removeSLOTFlag==0));
-            if ($(SLOTName[facID]).hasClass("TH") == true   && removeSLOTFlag==0) {
-                alert("SLOTS CLASHED"); //If SLOTs clashed then dont change color
+            // console.log("{ancake tests value of if",($(slotName[facID]).hasClass("TH") == true  && removeslotFlag==0));
+            if ($(slotName[facID]).hasClass("TH") == true   && removeslotFlag==0) {
+                alert("SLOTS CLASHED"); //If slots clashed then dont change color
                 clashStatus = 1;
                 return;
             }
-            else if($(SLOTName[facID]).hasClass("TH") == true && removeSLOTFlag==1)
+            else if($(slotName[facID]).hasClass("TH") == true && removeslotFlag==1)
             {
-                changeSLOTColor(SLOTName[facID], dataJSON[facID]["CODE"]); //Call function to change color
+                changeslotColor(slotName[facID], dataJSON[facID]["CODE"]); //Call function to change color
 
             }
             else {
-                changeSLOTColor(SLOTName[facID], dataJSON[facID]["CODE"]); //Call function to change color
+                changeslotColor(slotName[facID], dataJSON[facID]["CODE"]); //Call function to change color
             }
 
             if (dataJSON[facID]["SLOT"].localeCompare("") != 0) // If SLOT has another part
             {
-                extractSLOT();
+                extractslot();
                 length = dataJSON[facID]["SLOT"].length;
             }
         }
 
         else {
-            SLOTName[facID] = ".";
-            SLOTName[facID] = SLOTName[facID] + dataJSON[facID]["SLOT"]; // Copy SLOT to SLOTName and call fxn to change color
-            if ($(SLOTName[facID]).hasClass("TH") == true && removeSLOTFlag==0) {
-                alert("SLOTS CLASHED"); //If SLOTs clashed then dont change color
+            slotName[facID] = ".";
+            slotName[facID] = slotName[facID] + dataJSON[facID]["SLOT"]; // Copy SLOT to slotName and call fxn to change color
+            if ($(slotName[facID]).hasClass("TH") == true && removeslotFlag==0) {
+                alert("SLOTS CLASHED"); //If slots clashed then dont change color
                 clashStatus = 1;
                 return;
             }
             else {
-                changeSLOTColor(SLOTName[facID], dataJSON[facID]["CODE"]);
+                changeslotColor(slotName[facID], dataJSON[facID]["CODE"]);
             }
 
             return;
@@ -413,31 +413,31 @@ function updateFrontend(flag02) {
     }
 
 
-    function changeSLOTColor(s, code, flag02) {//Multiple changes
+    function changeslotColor(s, code, flag02) {//Multiple changes
         console.log("BURBERRY runs");
-        var SLOTI = s.substr(1, s.length);
-        // console.log("Pancake runs changeSLOTColor");
-        if (removeSLOTFlag == 1) {
+        var slotI = s.substr(1, s.length);
+        // console.log("Pancake runs changeslotColor");
+        if (removeslotFlag == 1) {
             // console.log("Strawberry runs if", $(s).hasClass("TH") == true);
             if ($(s).hasClass("TH") == true)//Change
             {
                 // console.log("Pancake tries removing", s);
                 $(s).removeClass("TH");
                 // console.log("Removing class and changing html element to",s);
-                $(s).html(SLOTI);
+                $(s).html(slotI);
 
             }
             else { //strawberry
 
                 // console.log("Strawberry runs else");
                 $(s).addClass("TH");//Change
-                $(s).html(code + "-" + '<br/>' + SLOTI);
+                $(s).html(code + "-" + '<br/>' + slotI);
             }
         }
         else {
             // console.log("Strawberry runs else");
             $(s).addClass("TH");//Change
-            $(s).html(code + "-" + '<br/>' + SLOTI);
+            $(s).html(code + "-" + '<br/>' + slotI);
         }
 
     }
@@ -446,7 +446,7 @@ function updateFrontend(flag02) {
     {
         // console.log("should read empty", arraySubject);
         // for(var l4=0; l4<arraySubject.length; l4++){
-        //     if(arraySubject[l4]["SLOT"].localeCompare(SLOTInit[facID])== 0  || arraySubject[l4]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0){
+        //     if(arraySubject[l4]["SLOT"].localeCompare(slotInit[facID])== 0  || arraySubject[l4]["FACULTY"].localeCompare(dataJSON[facID]["FACULTY"])== 0){
         //         alert("SLOT BOOM");
         //         return;
         //     }
@@ -457,7 +457,7 @@ function updateFrontend(flag02) {
         var table = document.getElementById("sec_Course");
         var row = table.insertRow(1);
         row.id = "row" + id_cell;//change
-        var SLOT = row.insertCell(0);
+        var slot = row.insertCell(0);
         var code = row.insertCell(1);
         var title = row.insertCell(2);
         var ven = row.insertCell(3);
@@ -467,7 +467,7 @@ function updateFrontend(flag02) {
         delt.id = "id" + id_cell;//change
         var classN = "close"; //change
 
-        SLOT.innerHTML = s;
+        slot.innerHTML = s;
         code.innerHTML = c;
         title.innerHTML = t;
         ven.innerHTML = v;
