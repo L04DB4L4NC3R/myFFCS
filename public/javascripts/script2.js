@@ -68,10 +68,10 @@ function isJSON(str){
         counter=0;
       n=dataJSON.length;
 
-      slotInit =[];
+      SLOTInit =[];
       //Pancake
           for(var l3=0;l3<n;l3++)
-              slotInit[l3]=dataJSON[l3]["SLOT"];
+              SLOTInit[l3]=dataJSON[l3]["SLOT"];
       SLOTName=[];
         //------------------------------------------UPDATE TABLE-------------------------------------------//
         var count0=0;
@@ -260,7 +260,7 @@ $(".fac").click(function() {
         "TITLE": dataJSON[facID]["TITLE"],
         "VENUE": dataJSON[facID]["VENUE"],
         "FACULTY": dataJSON[facID]["FACULTY"],
-        "CREDITS": dataJSON[facID]["c"]
+        "CREDITS": dataJSON[facID]["CREDITS"]
     };
     noSignUPsubCounter++;
 
@@ -282,7 +282,7 @@ $(document).on('click', '.close', function(){
     $("#row"+extractfacID).remove();
     dataJSON[extractfacID]["SLOT"]=SLOTInit[extractfacID];
     facID=extractfacID;
-    ced=ced- parseInt(dataJSON[facID]["c"]);
+    ced=ced- parseInt(dataJSON[facID]["CREDITS"]);
     $("#creds").html('Total Credits: ' + ced);
     $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS");
 
