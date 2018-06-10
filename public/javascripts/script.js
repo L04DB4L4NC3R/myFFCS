@@ -9,6 +9,8 @@ $(document).ready(()=>{
         var n;
         var extractfacID; //Change
         var state = true; //change2
+        var removeslotFlag=0;
+        var ced = 0;
 
         $(".lever").on("click",()=>{
           state = !state;
@@ -120,18 +122,30 @@ function extractSlot() {
                 }
             }
 
-
-            function changeSlotColor(s, code,flag02) {
-                var slotI= s.substr(1, s.length);
-                if(flag02==1) {
+            function changeSlotColor(s, code, flag02) {//Multiple changes
+            console.log(s);
+                console.log("BURBERRY runs");
+                var slotI = s.substr(1, s.length);
+                // console.log("Pancake runs changeslotColor");
+                if (removeslotFlag == 1) {
+                    // console.log("Strawberry runs if", $(s).hasClass("TH") == true);
                     if ($(s).hasClass("TH") == true)//Change
                     {
-                        console.log("Removing", s);
-                        $(s).removeClass( "TH" );
-                        $(s).html(s);
+                        // console.log("Pancake tries removing", s);
+                        $(s).removeClass("TH");
+                        // console.log("Removing class and changing html element to",s);
+                        $(s).html(slotI);
+
+                    }
+                    else { //strawberry
+
+                        // console.log("Strawberry runs else");
+                        $(s).addClass("TH");//Change
+                        $(s).html(code + "-" + '<br/>' + slotI);
                     }
                 }
                 else {
+                    // console.log("Strawberry runs else");
                     $(s).addClass("TH");//Change
                     $(s).html(code + "-" + '<br/>' + slotI);
                 }
@@ -229,12 +243,14 @@ function extractSlot() {
 //
 // //Remove courses   -------------------change-------------------------------------------------------------
 $(document).on('click', '.close', function(){
+  removeslotFlag=1;//pancake
+  extractfacID=parseInt((this.id).substr(2,(this.id).length));
+  $("#row"+extractfacID).remove();
+  // ced=ced-parseInt(dataJSON[extractfacID]["CREDITS"]);
+  // $("#creds").html('Total Credits: ' + ced);
+  // $("#credits").html("<br><h4><b>" + ced + "</b></h4>CREDITS");
 
-    extractfacID=parseInt((this.id).substr(2,(this.id).length));
-    $("#row"+extractfacID).remove();
-    //alert(extractfacID.toString())
-    //dataJSON[extractfacID]["slot"]=slotInit[extractfacID];
-    //alert(dataJSON[extractfacID]);
+  //dataJSON[extractfacID]["SLOT"]=slotInit[extractfacID];
     facID=extractfacID;
     $.ajax({
         url:'/timetable/del',
@@ -242,8 +258,12 @@ $(document).on('click', '.close', function(){
         data:dataJSON[extractfacID],
         success:()=>{
             console.log("Successfully sent the delete request");
+            //TODO can this work?
+            // var target = slotInit[extractfacID].split('+');
+            // for(i of target){
+            //   changeSlotColor('.'+i,dataJSON[facID]['CODE']);
+            // }
             location.reload();
-            //updateFrontend(1);
         },
         error:()=>{
             console.log("Error sending delete AJAX request");
@@ -278,6 +298,7 @@ $(document).on('click', '.close', function(){
                 alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
             } else{
                 //alert("Updated! As of now you have "+res.info+" credits");
+                ced = res.info;
                 $("#creds").html('Total Credits: ' + res.info)
                 $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")
                 addDataToList(slotInit[facID], dataJSON[facID]["CODE"], dataJSON[facID]["TITLE"], dataJSON[facID]["VENUE"], dataJSON[facID]["FACULTY"] , dataJSON[facID]["CREDITS"],facID);
@@ -319,6 +340,7 @@ $(document).on('click', '.close', function(){
     $.get("/timetable/fetch",(data)=>{
 
         dataJSON = data.data;
+        ced = data.credits;
         $("#creds").html('Total Credits: ' + data.credits);
         $("#credits").html("<br><h4><b>"+data.credits+"</b></h4>CREDITS");
 

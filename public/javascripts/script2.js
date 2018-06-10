@@ -19,6 +19,36 @@ var ced;
 arraySubject =[];
 var facIDReplace;
 var state = true; //change2
+function changeslotColor(s, code, flag02) {//Multiple changes
+console.log(s);
+    console.log("BURBERRY runs");
+    var slotI = s.substr(1, s.length);
+    // console.log("Pancake runs changeslotColor");
+    if (removeslotFlag == 1) {
+        // console.log("Strawberry runs if", $(s).hasClass("TH") == true);
+        if ($(s).hasClass("TH") == true)//Change
+        {
+            // console.log("Pancake tries removing", s);
+            $(s).removeClass("TH");
+            // console.log("Removing class and changing html element to",s);
+            $(s).html(slotI);
+
+        }
+        else { //strawberry
+
+            // console.log("Strawberry runs else");
+            $(s).addClass("TH");//Change
+            $(s).html(code + "-" + '<br/>' + slotI);
+        }
+    }
+    else {
+        // console.log("Strawberry runs else");
+        $(s).addClass("TH");//Change
+        $(s).html(code + "-" + '<br/>' + slotI);
+    }
+
+}
+
 
 $(".lever").on("click",()=>{
   state = !state;
@@ -416,34 +446,6 @@ function updateFrontend(flag02) {
     }
 
 
-    function changeslotColor(s, code, flag02) {//Multiple changes
-        console.log("BURBERRY runs");
-        var slotI = s.substr(1, s.length);
-        // console.log("Pancake runs changeslotColor");
-        if (removeslotFlag == 1) {
-            // console.log("Strawberry runs if", $(s).hasClass("TH") == true);
-            if ($(s).hasClass("TH") == true)//Change
-            {
-                // console.log("Pancake tries removing", s);
-                $(s).removeClass("TH");
-                // console.log("Removing class and changing html element to",s);
-                $(s).html(slotI);
-
-            }
-            else { //strawberry
-
-                // console.log("Strawberry runs else");
-                $(s).addClass("TH");//Change
-                $(s).html(code + "-" + '<br/>' + slotI);
-            }
-        }
-        else {
-            // console.log("Strawberry runs else");
-            $(s).addClass("TH");//Change
-            $(s).html(code + "-" + '<br/>' + slotI);
-        }
-
-    }
 
     function addDataToList(s, c, t, v, f, cd, id_cell) //Updating selected courses table
     {
