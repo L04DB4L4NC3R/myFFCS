@@ -13,13 +13,13 @@ const courseModel = require("../db/model").courseModel;
 const CourseType = new GraphQLObjectType({
     name:"Courses",
     fields:()=>({
-        venue:{type:GraphQLString},
-        code:{type:GraphQLString},
-        title:{type:GraphQLString},
-        type:{type:GraphQLString},
-        credits:{type:GraphQLInt},
-        slot:{type:GraphQLString},
-        faculty:{type:GraphQLString}
+        VENUE:{type:GraphQLString},
+        CODE:{type:GraphQLString},
+        TITLE:{type:GraphQLString},
+        TYPE:{type:GraphQLString},
+        CREDITS:{type:GraphQLInt},
+        SLOT:{type:GraphQLString},
+        FACULTY:{type:GraphQLString}
     })
 });
 
@@ -30,7 +30,7 @@ const RootQuery = new GraphQLObjectType({
     name:"RootQuery",
     fields:()=>({
         courses:{
-            type:CourseType,
+            type:new GraphQLList(CourseType),
             resolve(parent,args){
                 return courseModel.find({});
             }

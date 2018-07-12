@@ -9,6 +9,11 @@ require('./db/passport_setup.js');
 
 const morgan = require("morgan");
 
+//GraphQL handler
+const graphqlhttp = require("express-graphql");
+const schema = require("./graphql/schema");
+
+
 //session handler
 var session = require("express-session");
 
@@ -66,6 +71,12 @@ app.use("/nosignup",nosignup);
 
 //call Oauth-2.0 router for Google+ login
 app.use("/auth",auth_router);
+
+//graphql API
+app.use("/graphql",graphqlhttp({
+    schema,
+    graphiql:true
+}));
 
 //listen on specified port
 
