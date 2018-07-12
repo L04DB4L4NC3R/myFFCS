@@ -19,9 +19,17 @@ const CourseType = new GraphQLObjectType({
         TYPE:{type:GraphQLString},
         CREDITS:{type:GraphQLInt},
         SLOT:{type:GraphQLString},
-        FACULTY:{type:GraphQLString}
     })
 });
+
+
+const CourseTypeSpecific = new GraphQLObjectType({
+    name:"SpecificCourses",
+    fields:()=>({
+
+    })
+})
+
 
 
 
@@ -40,6 +48,30 @@ const TeacherType = new GraphQLObjectType({
 
 
 
+const CodeType = new GraphQLObjectType({
+    name:"Code",
+    fields:()=>({
+        VENUE:{type:GraphQLString},
+        CODE:{type:GraphQLString},
+        TITLE:{type:GraphQLString},
+        TYPE:{type:GraphQLString},
+        CREDITS:{type:GraphQLInt},
+        SLOT:{type:GraphQLString},
+        FACULTY:{
+            type:new GraphQLList(TeacherType),
+            args:{name:{type:GraphQLString}},
+            resolve(parent,args){
+                return courseModel.find({FACULTY:args.name,CODE:parent.CODE});
+            }   
+        }
+    })
+})
+
+
+
+
+
+
 
 
 const RootQuery = new GraphQLObjectType({
@@ -54,8 +86,16 @@ const RootQuery = new GraphQLObjectType({
         faculty:{
             type:new GraphQLList(TeacherType),
             args:{name:{type:GraphQLString}},
-            resolve(teacher,args){
+            resolve(parent,args){
                 return courseModel.find({FACULTY:args.name})
+            }
+        },
+       
+        course:{
+            type:new GraphQLList(CodeType),
+            args:{code:{type:GraphQLString}},
+            resolve(parent,args){
+                return courseModel.find({CODE:args.code});
             }
         }   
     })
