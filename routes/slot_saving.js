@@ -58,13 +58,13 @@ router.post("/save",verifyRoute,async (req,res)=>{
     else {
         // check if course limit reached
         probeCourseLimit(req.body) 
-        .then(()=>{
+        .then((cnt)=>{
             increaseCourseCount(req.body)
             .then(()=>{
                 profileModel.update( {email:req.session.email}, {$push: {courses:req.body} } ).then( ()=>{
 
                     console.log("updated");
-                    res.send( { status:"updated",info:variable.credits + parseInt(req.body.CREDITS),course:req.body } );
+                    res.send( { status:"updated",info:variable.credits + parseInt(req.body.CREDITS), count: parseInt(process.env.COUNT)-cnt-1,course:req.body } );
                 });
             }).catch(msg=>res.send({status: "course_limit", info :"Error increasing limit"}))
              //if no clash then update the database

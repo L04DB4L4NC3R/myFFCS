@@ -119,7 +119,7 @@ module.exports.probeCourseLimit = (query) =>{
             }
             else {
                 console.log(c)
-                resolve()
+                resolve(c.COUNT)
             }
         })
     }).catch((err)=>{
