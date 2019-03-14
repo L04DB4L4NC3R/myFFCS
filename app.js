@@ -72,6 +72,10 @@ app.use("/nosignup",nosignup);
 //call Oauth-2.0 router for Google+ login
 app.use("/auth",auth_router);
 
+// chatbot fulfillment
+app.use("/",require("./routes/chatbot"));
+
+
 //graphql API
 app.use("/graphql",graphqlhttp({
     schema,
