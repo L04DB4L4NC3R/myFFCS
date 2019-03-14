@@ -1,4 +1,5 @@
 $(document).ready(()=>{
+    setTimeout(function(){ window.location.replace("/"); }, 30000);
         //--------------------------------------------GLOBAL VARIABLES---------------------------
         var getJSON = [];
         var slotInit =[];
