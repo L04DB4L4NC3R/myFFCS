@@ -90,6 +90,8 @@ module.exports.hashAndSave = (obj)=>{
 //checks for slot clash
 module.exports.checkClash = (slots,string)=>{
 
+    console.log(slots)
+    console.log(string)
     for( slot of slots ){
 
         if( string.indexOf(slot)!==-1 )
