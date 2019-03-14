@@ -12,6 +12,7 @@ $(document).ready(()=>{
         var state = true; //change2
         var removeslotFlag=0;
         var ced = 0;
+        let remaining = 0;
 
         $(".lever").on("click",()=>{
           state = !state;
@@ -191,7 +192,9 @@ function extractSlot() {
           slotInit[l3]=dataJSON[l3]["SLOT"];
   SLOTName=[];
     //------------------------------------------UPDATE TABLE-------------------------------------------//
-    var count0=0;
+    var count0=0;    
+    $.get("/timetable/classSize", (dex, status) =>{
+
     for(var l =0; l<n ;l++){  //Loop to update table
       // var data =dataJSON[l]["SLOT"]+"|"+dataJSON[l]["VENUE"]+"|"+dataJSON[l]["FACULTY"]+"|";
       // if (data.length >=23)
@@ -199,28 +202,33 @@ function extractSlot() {
       // else
       //     $("#fac"+(l+1)).html(data+'<hr/>');
 
-      var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
-      if(state) //Superman
-      {
-          if(dataJSON[l]["SLOT"][0]=='L'){
-            if (data.length >= 14)
-                $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
-            else
-                $("#fac" + (counter + 1)).html(data + '<hr/>');
-          counter++;
-          }
-      }
-      else {
-        if(dataJSON[l]["SLOT"][0]!='L'){
-          if (data.length >= 14)
-              $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
-          else
-              $("#fac" + (count0 + 1)).html(data + '<hr/>');
-          count0++;
-        }
-      }
-    }//Table updated with course options
 
+        remaining = parseInt(dex) - dataJSON[l]["COUNT"]
+        var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|" + remaining.toString() + "|";
+        if(state) //Superman
+        {
+            if(dataJSON[l]["SLOT"][0]=='L'){
+              if (data.length >= 14)
+                  $("#fac" + (counter + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
+              else
+                  $("#fac" + (counter + 1)).html(data + '<hr/>');
+            counter++;
+            }
+        }
+        else {
+          if(dataJSON[l]["SLOT"][0]!='L'){
+            if (data.length >= 14)
+                $("#fac" + (count0 + 1)).html(data.substr(0, 14) + data.substr(14, data.length) + '<hr/>');
+            else
+                $("#fac" + (count0 + 1)).html(data + '<hr/>');
+            count0++;
+          }
+        }
+//Table updated with course options  
+
+      }
+
+    });
 
 
     }//End of updateFreshCourses()
@@ -298,7 +306,7 @@ $(document).on('click', '.close', function(){
                 alert("This particular classroom is full")
             }
             else{
-                alert(`Course Added. Number of people left in the classroom = ${res.count}`);
+                alert(`Course Added. Number of people left in the classroom = ${res.COUNT}`);
                 ced = res.info;
                 $("#creds").html('Total Credits: ' + res.info)
                 $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")

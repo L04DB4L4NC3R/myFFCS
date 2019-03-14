@@ -148,3 +148,23 @@ module.exports.increaseCourseCount = (query) =>{
         reject(err)
     })
 }
+
+
+// decrease course count
+module.exports.decreaseCourseCount = (query) =>{
+    return new Promise((resolve, reject) => {
+        courseModel.updateOne(query, {
+            $inc: {
+                COUNT:-1
+            }
+        })
+        .then((c) => {
+            if(c.COUNT >= process.env.COURSE_LIMIT)
+                reject("Course limit was reached");
+            else 
+                resolve("Within course limit")
+        })
+    }).catch((err)=>{
+        reject(err)
+    })
+}

@@ -5,7 +5,8 @@ var {
     checkClash,
     verifyRoute,
     probeCourseLimit,
-    increaseCourseCount
+    increaseCourseCount,
+    decreaseCourseCount
  } = require("../db/helpers");
 
 
@@ -59,12 +60,14 @@ router.post("/save",verifyRoute,async (req,res)=>{
         // check if course limit reached
         probeCourseLimit(req.body) 
         .then((cnt)=>{
+            let count = parseInt(process.env.COUNT)-cnt-1
+            console.log(count)
             increaseCourseCount(req.body)
             .then(()=>{
                 profileModel.update( {email:req.session.email}, {$push: {courses:req.body} } ).then( ()=>{
 
                     console.log("updated");
-                    res.send( { status:"updated",info:variable.credits + parseInt(req.body.CREDITS), count: parseInt(process.env.COUNT)-cnt-1,course:req.body } );
+                    res.send( { status:"updated",info:variable.credits + parseInt(req.body.CREDITS), count,course:req.body } );
                 });
             }).catch(msg=>res.send({status: "course_limit", info :"Error increasing limit"}))
              //if no clash then update the database
@@ -94,8 +97,10 @@ router.delete('/del',verifyRoute,(req,res)=>{
 
         console.log("removed course!");
 
-        //TODO res.redirect('/timetable') but it doesnt work
-        res.send("Deleted course")//res.redirect("/timetable");
+        decreaseCourseCount(req.body)
+            .then(()=>{
+                res.send("Deleted course")//res.redirect("/timetable");
+            }).catch(msg=>res.send({status: "course_limit", info :"Error increasing limit"}))
 
     }).catch( (err)=>{
         console.log(err);
@@ -135,6 +140,10 @@ router.post('/predict',verifyRoute,(req,res)=>{
     });
 });
 
+
+router.get("/classSize", (req, res) => {
+    res.send(process.env.COURSE_LIMIT)
+})
 
 
 module.exports = router;

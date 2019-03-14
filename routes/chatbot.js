@@ -27,8 +27,8 @@ router.post("/chatbot",(req,res)=>{
         }
            // send fullfillment 
         return res.status(200).send({
-            "fulfillmentText":`This particular class has ${count} seats left`,
-            "fulfillmentMessages":[{"text":{"text":[`This particular class has ${count} seats left`]}}],
+            "fulfillmentText":`This particular class has ${count} out of ${process.env.COURSE_LIMIT} seats left`,
+            "fulfillmentMessages":[{"text":{"text":[`This particular class has ${count} out of ${process.env.COURSE_LIMIT} seats left`]}}],
             "source":""
         });
      }
