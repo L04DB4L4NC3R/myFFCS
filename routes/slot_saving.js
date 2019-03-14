@@ -60,7 +60,8 @@ router.post("/save",verifyRoute,async (req,res)=>{
         // check if course limit reached
         probeCourseLimit(req.body) 
         .then((cnt)=>{
-            let count = parseInt(process.env.COUNT)-cnt-1
+
+            let count = parseInt(process.env.COURSE_LIMIT)-cnt-1
             console.log(count)
             increaseCourseCount(req.body)
             .then(()=>{

@@ -306,7 +306,7 @@ $(document).on('click', '.close', function(){
                 alert("This particular classroom is full")
             }
             else{
-                alert(`Course Added. Number of people left in the classroom = ${res.COUNT}`);
+                alert(`Course Added. Number of people left in the classroom = ${res.count}`);
                 ced = res.info;
                 $("#creds").html('Total Credits: ' + res.info)
                 $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")
