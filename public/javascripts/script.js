@@ -292,12 +292,12 @@ $(document).on('click', '.close', function(){
                 alert("Slot(s) clashed! "+res.info+" Slot was clashed");
             } else if(res.status == "limit"){
 
-
-
-
                 alert("You cannot register more than 27 credits! You can only register "+res.info+" more credits");
-            } else{
-                //alert("Updated! As of now you have "+res.info+" credits");
+            } else if(res.status == "course_limit") {
+                alert("This particular classroom is full")
+            }
+            else{
+                alert("Course Added!");
                 ced = res.info;
                 $("#creds").html('Total Credits: ' + res.info)
                 $("#credits").html("<br><h4><b>"+res.info+"</b></h4>CREDITS")

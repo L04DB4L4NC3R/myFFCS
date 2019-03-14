@@ -8,7 +8,11 @@ var schema = new mongoose.Schema({
     SLOT:String,
     CODE:String,
     TITLE:String,
-    VENUE:String
+    VENUE:String,
+    COUNT: {
+        type: Number,
+        default: 0
+    }
 });
 
 

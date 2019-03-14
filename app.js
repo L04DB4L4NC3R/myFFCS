@@ -5,7 +5,7 @@ const path = require("path")
 const passport = require("passport");
 
 require("dotenv").config()
-require('./db/passport_setup.js');
+//require('./db/passport_setup.js');
 
 const morgan = require("morgan");
 
@@ -81,5 +81,5 @@ app.use("/graphql",graphqlhttp({
 //listen on specified port
 
 app.listen(process.env.PORT || 3000,function(){
-    console.log("Listening on localhost: " + process.env.PORT);
+    console.log("Listening on localhost" );
 });

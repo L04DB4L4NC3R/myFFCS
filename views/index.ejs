@@ -49,6 +49,38 @@
                 </form>
             <a href="/nosignup"><button class="btn" type="button" id="b2" required="true">SKIP LOGIN</button></a><BR>
             <button class="btn" type="button" id="b3">SIGN UP</button>
+
+    <!-- Trigger the modal with a button -->
+    <button class="btn" id="b1" data-toggle="modal" data-target="#askModal" >queries</button>
+    <!-- Modal -->
+    <div class="modal fade" id="askModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Say hi</h4>
+          </div>
+          <div class="modal-body">
+            
+<center> <iframe
+allow="microphone;"
+width="350"
+height="430"
+src="https://console.dialogflow.com/api-client/demo/embedded/21fa53fa-33c2-41f3-9ffa-143b293b8029">
+</iframe> </center>
+
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
             <button class="btn" type="button" id="b4" >SIGN UP WITH  <i class="fa fa-google-plus" aria-hidden="true"></i></button>
         </div>
     </div>
@@ -107,6 +139,9 @@
 <script>
     $(document).ready(function(){
         $("#b3").click(function(){
+            $("#myModal").modal();
+        });
+        $("#b1").click(function(){
             $("#myModal").modal();
         });
         $("#b4").click(function(){

@@ -42,3 +42,20 @@ ___
 
 ![Alt text](./public/images/pic5.png)
 ___
+
+
+<br />
+<br />
+
+### Secrets
+
+<br />
+
+```
+CALLBACK_URL=
+CLIENT_ID=
+CLIENT_SECRET=
+COOKIE_SECRET_KEY=
+MONGO_URL=
+COURSE_LIMIT=
+```

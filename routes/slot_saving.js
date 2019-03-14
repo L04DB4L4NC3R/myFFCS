@@ -1,8 +1,12 @@
 const profileModel = require("../db/model").profileModel;
 const model = require("../db/model").courseModel;
 const router = require("express").Router();
-var checkClash = require("../db/helpers").checkClash;
-var verifyRoute = require("../db/helpers").verifyRoute;
+var {
+    checkClash,
+    verifyRoute,
+    probeCourseLimit,
+    increaseCourseCount
+ } = require("../db/helpers");
 
 
 
@@ -51,13 +55,25 @@ router.post("/save",verifyRoute,async (req,res)=>{
     else if( checkClash(slots,variable.slots) )
         res.send( {status:"clashed",info:slot} );
 
-    //if no clash then update the database
-    else profileModel.update( {email:req.session.email}, {$push: {courses:req.body} } ).then( ()=>{
+    else {
+        // check if course limit reached
+        probeCourseLimit(req.body) 
+        .then(()=>{
+            increaseCourseCount(req.body)
+            .then(()=>{
+                profileModel.update( {email:req.session.email}, {$push: {courses:req.body} } ).then( ()=>{
 
-        console.log("updated");
-        res.send( { status:"updated",info:variable.credits + parseInt(req.body.CREDITS),course:req.body } );
-    });
-
+                    console.log("updated");
+                    res.send( { status:"updated",info:variable.credits + parseInt(req.body.CREDITS),course:req.body } );
+                });
+            }).catch(msg=>res.send({status: "course_limit", info :"Error increasing limit"}))
+             //if no clash then update the database
+           
+        }).catch(msg => {
+            res.send(res.send({status: "course_limit", info :msg}))
+        })
+    }
+    
 
 });
 

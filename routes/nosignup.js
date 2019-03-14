@@ -10,7 +10,20 @@ router.get("/",(req,res)=>{
 
 
 
-
+/**
+ * 
+ * @api {post} /timetable fetch timetable
+ * @apiName fetch timetable
+ * @apiGroup no-signup
+ * 
+ * @apiParam {string} CODE course code
+ * 
+ * @apiParamExample {json} request-example
+ * {
+	"CODE":"MAT2001"
+}
+ * 
+ */
 router.post("/timetable",(req,res)=>{
 
 console.log(req.body);

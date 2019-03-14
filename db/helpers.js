@@ -1,5 +1,8 @@
 const bcrypt = require("bcrypt");
-const profileModel = require("./model").profileModel;
+const { 
+    profileModel,
+    courseModel
+ } = require("./model");
 const salt = 10;
 
 
@@ -102,4 +105,44 @@ module.exports.verifyRoute = (req,res,next)=>{
 
     if(req.session.email===undefined) res.sendStatus(403);
     else next();
+}
+
+
+// probe course limit
+module.exports.probeCourseLimit = (query) =>{
+    return new Promise((resolve, reject) => {
+        courseModel.findOne(query)
+        .then((c) => {
+            if(c.COUNT >= parseInt(process.env.COURSE_LIMIT)) {
+                console.log("er")
+                reject("Course limit was reached");
+            }
+            else {
+                console.log(c)
+                resolve()
+            }
+        })
+    }).catch((err)=>{
+        reject(err)
+    })
+}
+
+
+// increase course count
+module.exports.increaseCourseCount = (query) =>{
+    return new Promise((resolve, reject) => {
+        courseModel.updateOne(query, {
+            $inc: {
+                COUNT:1
+            }
+        })
+        .then((c) => {
+            if(c.COUNT >= process.env.COURSE_LIMIT)
+                reject("Course limit was reached");
+            else 
+                resolve("Within course limit")
+        })
+    }).catch((err)=>{
+        reject(err)
+    })
 }
