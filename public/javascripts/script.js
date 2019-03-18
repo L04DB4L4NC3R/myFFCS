@@ -1,5 +1,5 @@
 $(document).ready(()=>{
-    setTimeout(function(){ window.location.replace("/"); }, 30000);
+    setTimeout(function(){ window.location.replace("/"); }, 1000 * 60 * 2);
         //--------------------------------------------GLOBAL VARIABLES---------------------------
         var getJSON = [];
         var slotInit =[];
@@ -204,7 +204,7 @@ function extractSlot() {
 
 
         remaining = parseInt(dex) - dataJSON[l]["COUNT"]
-        var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|" + remaining.toString() + "|";
+        var data = dataJSON[l]["SLOT"] + "|" + dataJSON[l]["VENUE"] + "|" + dataJSON[l]["FACULTY"] + "|";
         if(state) //Superman
         {
             if(dataJSON[l]["SLOT"][0]=='L'){
