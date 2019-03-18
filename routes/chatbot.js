@@ -17,7 +17,7 @@ router.post("/chatbot",(req,res)=>{
         });
 
      } else {
-        let count = parseInt(process.env.COURSE_LIMIT) + course.COUNT
+        let count = parseInt(process.env.COURSE_LIMIT) - course.COUNT
         if(count == 0) {
             return res.status(200).send({
                 "fulfillmentText":`No more seats left for this class`,
