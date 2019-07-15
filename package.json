@@ -14,7 +14,7 @@
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
     "ejs": "^2.5.7",
-    "express": "^4.16.2",
+    "express": "^4.17.1",
     "express-graphql": "^0.6.12",
     "express-session": "^1.15.6",
     "graphql": "^0.13.2",
