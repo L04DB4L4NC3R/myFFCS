@@ -13,7 +13,7 @@
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "dotenv": "^8.0.0",
-    "ejs": "^2.5.7",
+    "ejs": "^2.7.1",
     "express": "^4.17.1",
     "express-graphql": "^0.6.12",
     "express-session": "^1.16.2",
